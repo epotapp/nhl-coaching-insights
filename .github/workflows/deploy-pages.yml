@@ -42,6 +42,13 @@ jobs:
           PORT: 4173
           BASE_PATH: ./
 
+      - name: Normalize legacy media paths for GitHub Pages
+        shell: bash
+        run: |
+          find artifacts/mockup-sandbox/dist/assets -type f -name '*.js' -exec sed -i \
+            -e 's|/__mockup/images/|./images/|g' \
+            -e 's|/__mockup/videos/|./videos/|g' {} +
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
