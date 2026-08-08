@@ -1,0 +1,158 @@
+/* ═══════════ shared shell CSS: nav menu · side panels · flash ═══════════ */
+
+/* page container (all non-dashboard pages) */
+.hd-pagewrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 14px 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(65, 134, 255, 0.25) transparent;
+}
+.hd-page-stub {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: rgba(129, 131, 135, 0.65);
+  font-size: 13px;
+}
+.hd-w-stub {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  color: rgba(129, 131, 135, 0.65);
+  font-size: 12px;
+}
+
+/* ── left slide-out sidebar nav — matches the supplied full-height rail ── */
+.hd-sidebar-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 205;
+  background: transparent;
+}
+.hd-sidebar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 262px;
+  z-index: 210;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: none;
+  border-radius: 0 28px 28px 0;
+  padding: 22px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 14px 0 42px rgba(0, 0, 0, 0.46);
+  animation: hd-sidebar-in 0.18s ease-out;
+}
+@keyframes hd-sidebar-in {
+  from { transform: translateX(-14px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.hd-sidebar-item {
+  width: 100%;
+  min-height: 68px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.56);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.35px;
+  text-align: left;
+}
+.hd-sidebar-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  object-fit: contain;
+  opacity: 0.56;
+}
+.hd-sidebar-pref-icon { padding: 1px; stroke-width: 2.2; }
+.hd-sidebar-item:hover {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.86);
+}
+.hd-sidebar-item:hover .hd-sidebar-icon { opacity: 0.86; }
+.hd-sidebar-item.hd-sidebar-current { color: #ffffff; font-weight: 500; }
+.hd-sidebar-item.hd-sidebar-current .hd-sidebar-icon { opacity: 1; }
+.hd-sidebar-spacer { flex: 1; }
+.hd-root.hd-theme-light .hd-sidebar {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 14px 0 42px rgba(0, 0, 0, 0.35);
+}
+
+/* star (sparkle) inside the search bar */
+.hd-search-star { color: #8894c0; flex-shrink: 0; }
+.hd-root.hd-theme-light .hd-search-star { color: #5a6690; }
+
+/* ── global right side panels (Calendar / Notes) — NO blur on the
+      rest of the workspace (spec item 12) ── */
+.hd-sidepanel {
+  position: absolute;
+  top: 52px;
+  right: 10px;
+  bottom: 10px;
+  width: 306px;
+  z-index: 55;
+  background: #0b1122;
+  border: 1px solid rgba(65, 134, 255, 0.22);
+  border-radius: 18px;
+  box-shadow: -14px 0 44px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.hd-sidepanel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 15px 9px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #E8EFF7;
+}
+.hd-sidepanel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 12px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(65, 134, 255, 0.25) transparent;
+}
+.hd-root.hd-theme-light .hd-sidepanel { background: #ffffff; border-color: rgba(2, 6, 15, 0.14); box-shadow: -14px 0 44px rgba(30, 40, 80, 0.18); }
+.hd-root.hd-theme-light .hd-sidepanel-head { color: #111629; }
+
+/* ── Flash — stat-change emphasis (spec item 10) ──
+   in 0.2s to bigger/bolder centered on geometric center,
+   back over 1.4s */
+.hd-flash {
+  display: inline-grid;
+  place-items: center;
+  transform-origin: 50% 50%;
+  transition: transform 1.4s ease, font-weight 1.4s ease, filter 1.4s ease;
+}
+.hd-flash-on {
+  transition: transform 0.2s ease, font-weight 0.2s ease, filter 0.2s ease;
+  transform: scale(1.22);
+  font-weight: 800;
+  filter: brightness(1.25);
+}
+
+/* PagePanel bits */
+.hd-pp-sub { color: #818387; font-weight: 500; }
+.hd-pp-head-right { display: flex; align-items: center; gap: 6px; }
+.hd-pp-title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+/* v0.1 strict shared chrome */
+.hd-pagewrap { padding: 0 !important; scrollbar-color: #303744 transparent; }
+.hd-sidebar { border: 0 !important; box-shadow: none !important; animation: none !important; }
+.hd-sidepanel { border: 0 !important; box-shadow: none !important; }
+.hd-flash, .hd-flash-on { transition: none !important; transform: none !important; filter: none !important; }

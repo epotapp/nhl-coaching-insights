@@ -1,0 +1,492 @@
+/* ═══════════ Preferences page (prefix pf-) ═══════════ */
+.pf-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 8px 4px 20px;
+  align-items: start;
+}
+
+.pf-left,
+.pf-right {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.pf-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-h {
+  font-size: calc(17px * var(--hd-ts));
+  font-weight: 700;
+  color: #E8EFF7;
+  letter-spacing: -0.2px;
+}
+.pf-sub {
+  font-size: calc(12.5px * var(--hd-ts));
+  color: #818387;
+  font-weight: 500;
+  margin-top: 3px;
+  margin-bottom: 12px;
+}
+
+/* ── Live Preview block ── */
+.pf-preview-block {
+  display: flex;
+  flex-direction: column;
+}
+.pf-preview-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+.pf-preview-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.pf-preview-card-lg {
+  height: 130px;
+}
+.pf-preview-grid {
+  align-items: end;
+}
+.pf-preview-ghost {
+  font-size: calc(10px * var(--hd-ts));
+  color: rgba(129, 131, 135, 0.7);
+  font-weight: 500;
+}
+.pf-preview-exp {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: rgba(129, 131, 135, 0.7);
+  background: transparent;
+  display: flex;
+}
+.pf-preview-stat {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}
+.pf-preview-tag {
+  font-size: calc(8px * var(--hd-ts));
+  color: rgba(129, 131, 135, 0.7);
+  background: rgba(2, 6, 15, 0.7);
+  padding: 2px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.pf-preview-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -30px;
+  padding: 6px 4px 0;
+  position: relative;
+  z-index: 2;
+}
+.pf-preview-label {
+  font-size: calc(15px * var(--hd-ts));
+  font-weight: 700;
+  color: #E8EFF7;
+}
+.pf-preview-mini-tag {
+  font-size: calc(8px * var(--hd-ts));
+  color: rgba(129, 131, 135, 0.7);
+  display: inline-flex;
+  gap: 4px;
+  align-items: baseline;
+}
+
+/* ── segmented control ── */
+.pf-seg {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 6px;
+  margin-top: 4px;
+}
+.pf-seg-btn {
+  height: 40px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #818387;
+  font-size: calc(13px * var(--hd-ts));
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.pf-seg-btn:hover {
+  color: #E8EFF7;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.pf-seg-active {
+  background: #ffffff;
+  color: #02060F;
+  border-color: #ffffff;
+}
+.pf-seg-active:hover {
+  color: #02060F;
+}
+.pf-seg-sm {
+  gap: 6px;
+  margin-top: 0;
+  width: 300px;
+  flex-shrink: 0;
+}
+.pf-seg-sm .pf-seg-btn {
+  height: 34px;
+  border-radius: 7px;
+  font-size: calc(12.5px * var(--hd-ts));
+}
+
+/* ── display card ── */
+.pf-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.pf-field-title {
+  font-size: calc(14px * var(--hd-ts));
+  font-weight: 700;
+  color: #E8EFF7;
+}
+.pf-field-sub {
+  font-size: calc(11.5px * var(--hd-ts));
+  color: #818387;
+  margin: 2px 0 8px;
+}
+.pf-mt {
+  margin-top: 18px;
+}
+
+/* ── sliders ── */
+.pf-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+  margin: 6px 0 0;
+  cursor: pointer;
+}
+.pf-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.pf-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.pf-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: calc(11.5px * var(--hd-ts));
+  color: #818387;
+  font-weight: 500;
+  margin-top: 6px;
+}
+.pf-textsize-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pf-textsize-aa {
+  font-size: calc(19px * var(--hd-ts));
+  font-weight: 600;
+  color: #E8EFF7;
+  flex-shrink: 0;
+}
+
+/* ── AI rows ── */
+.pf-ai-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.pf-ai-row:last-child {
+  margin-bottom: 0;
+}
+.pf-ai-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(33, 85, 252, 0.2);
+  color: #4186FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pf-ai-text {
+  flex: 1;
+  min-width: 0;
+}
+.pf-ai-title {
+  font-size: calc(13.5px * var(--hd-ts));
+  font-weight: 700;
+  color: #E8EFF7;
+}
+.pf-ai-sub {
+  font-size: calc(11.5px * var(--hd-ts));
+  color: #818387;
+  margin-top: 1px;
+}
+
+/* ── toggle switch ── */
+.pf-toggle {
+  width: 42px;
+  height: 24px;
+  border-radius: 12px;
+  background: rgba(129, 131, 135, 0.55);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.pf-toggle-on {
+  background: #2155FC;
+}
+.pf-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s;
+}
+.pf-toggle-on .pf-toggle-knob {
+  transform: translateX(18px);
+}
+
+/* ── Summary cards ── */
+.pf-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.pf-summary-card:last-child {
+  margin-bottom: 0;
+}
+.pf-summary-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(33, 85, 252, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pf-stars {
+  display: flex;
+  gap: 1px;
+}
+.pf-star-on {
+  color: #ffce4a;
+  fill: #ffce4a;
+}
+.pf-star-off {
+  color: rgba(129, 131, 135, 0.7);
+  fill: transparent;
+}
+.pf-summary-title {
+  font-size: calc(14px * var(--hd-ts));
+  font-weight: 700;
+  color: #E8EFF7;
+}
+.pf-summary-list {
+  font-size: calc(12px * var(--hd-ts));
+  color: #818387;
+  margin-top: 2px;
+}
+
+/* ── All Preferences categories ── */
+.pf-cat {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.pf-cat:last-child {
+  margin-bottom: 0;
+}
+.pf-cat-head {
+  width: 100%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 16px;
+  text-align: left;
+}
+.pf-cat-head-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.pf-cat-title {
+  font-size: calc(15px * var(--hd-ts));
+  font-weight: 700;
+  color: #E8EFF7;
+}
+.pf-cat-edit {
+  font-size: calc(11.5px * var(--hd-ts));
+  color: rgba(129, 131, 135, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pf-cat-chev {
+  color: #818387;
+  flex-shrink: 0;
+}
+.pf-cat-body {
+  padding: 2px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pf-cat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pf-cat-row-label {
+  font-size: calc(13.5px * var(--hd-ts));
+  font-weight: 500;
+  color: #E8EFF7;
+  min-width: 0;
+}
+
+/* ═══════════ LIGHT THEME OVERRIDES ═══════════ */
+.hd-root.hd-theme-light .pf-h,
+.hd-root.hd-theme-light .pf-field-title,
+.hd-root.hd-theme-light .pf-ai-title,
+.hd-root.hd-theme-light .pf-summary-title,
+.hd-root.hd-theme-light .pf-cat-title,
+.hd-root.hd-theme-light .pf-cat-row-label,
+.hd-root.hd-theme-light .pf-preview-label {
+  color: #02060F;
+}
+.hd-root.hd-theme-light .pf-sub,
+.hd-root.hd-theme-light .pf-field-sub,
+.hd-root.hd-theme-light .pf-ai-sub,
+.hd-root.hd-theme-light .pf-summary-list,
+.hd-root.hd-theme-light .pf-slider-scale {
+  color: #42454B;
+}
+.hd-root.hd-theme-light .pf-cat-edit {
+  color: #42454B;
+}
+.hd-root.hd-theme-light .pf-cat-chev {
+  color: #42454B;
+}
+.hd-root.hd-theme-light .pf-card,
+.hd-root.hd-theme-light .pf-ai-row,
+.hd-root.hd-theme-light .pf-summary-card,
+.hd-root.hd-theme-light .pf-cat,
+.hd-root.hd-theme-light .pf-preview-card {
+  background: #F0F5FA;
+  border-color: rgba(2, 6, 15, 0.10);
+}
+.hd-root.hd-theme-light .pf-seg-btn {
+  background: #F0F5FA;
+  border-color: rgba(2, 6, 15, 0.10);
+  color: #42454B;
+}
+.hd-root.hd-theme-light .pf-seg-btn:hover {
+  color: #02060F;
+  border-color: rgba(33, 85, 252, 0.28);
+}
+.hd-root.hd-theme-light .pf-seg-active {
+  background: #02060F;
+  color: #ffffff;
+  border-color: #02060F;
+}
+.hd-root.hd-theme-light .pf-seg-active:hover {
+  color: #ffffff;
+}
+.hd-root.hd-theme-light .pf-slider {
+  background: rgba(33, 85, 252, 0.2);
+}
+.hd-root.hd-theme-light .pf-slider::-webkit-slider-thumb {
+  background: #2155FC;
+}
+.hd-root.hd-theme-light .pf-slider::-moz-range-thumb {
+  background: #2155FC;
+}
+.hd-root.hd-theme-light .pf-textsize-aa {
+  color: #42454B;
+}
+.hd-root.hd-theme-light .pf-toggle {
+  background: rgba(2, 6, 15, 0.22);
+}
+.hd-root.hd-theme-light .pf-toggle-on {
+  background: #2155FC;
+}
+.hd-root.hd-theme-light .pf-ai-icon {
+  background: rgba(33, 85, 252, 0.12);
+  color: #2155FC;
+}
+.hd-root.hd-theme-light .pf-summary-icon {
+  background: rgba(33, 85, 252, 0.12);
+}
+.hd-root.hd-theme-light .pf-star-off {
+  color: #c4cde0;
+}
+.hd-root.hd-theme-light .pf-preview-ghost,
+.hd-root.hd-theme-light .pf-preview-tag,
+.hd-root.hd-theme-light .pf-preview-mini-tag {
+  color: #42454B;
+}
+.hd-root.hd-theme-light .pf-preview-tag {
+  background: rgba(2, 6, 15, 0.04);
+}

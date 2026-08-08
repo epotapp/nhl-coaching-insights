@@ -1,0 +1,44 @@
+/* Stats v0.1 — fixed responsive reflow */
+.st-page { width: 100%; min-height: 100%; display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(280px, .9fr); gap: 20px; align-items: start; }
+.st-main { min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.st-widget-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.st-widget { min-height: 250px; display: flex; flex-direction: column; }
+.st-widget-wide { grid-column: 1 / -1; min-height: 330px; width: 100%; }
+.st-widget-grid > .st-widget-wide { grid-column: 1 / -1; }
+.st-chart-wrap { position: relative; flex: 1; min-height: 180px; border-radius: 14px; overflow: hidden; }
+.st-chart-wrap img { width: 100%; height: 100%; min-height: 180px; object-fit: cover; }
+.st-chart-wrap > strong { position: absolute; right: 16px; top: 14px; padding: 6px 9px; border-radius: 9px; background: #040814; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; font-size: 18px; }
+.st-widget footer { margin-top: 9px; text-align: right; color: #fff; font-size: 11px; font-weight: 600; }
+.st-key-bars { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 14px; }
+.st-key-bars label { display: grid; grid-template-columns: 110px 1fr 28px; gap: 10px; align-items: center; color: #8f96a3; font-size: 10px; }
+.st-key-bars i { display: block; height: 10px; border-radius: 999px; background: #303744; overflow: hidden; }
+.st-key-bars b { display: block; height: 100%; border-radius: inherit; background: #4186ff; }
+.st-key-bars strong { color: #8f96a3; font-size: 9px; }
+.st-fo-content { flex: 1; min-height: 240px; display: grid; grid-template-columns: 180px .8fr 1fr; gap: 24px; align-items: center; padding: 16px; }
+.st-fo-bars { align-self: stretch; display: flex; align-items: flex-end; justify-content: center; gap: 20px; }
+.st-fo-bars i { display: block; width: 48px; min-height: 10%; background: #4186ff; }
+.st-fo-bars i:last-child { background: #8f96a3; }
+.st-fo-score { display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+.st-fo-score strong { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; font-size: 54px; }
+.st-fo-score span { font-weight: 600; }.st-fo-score small { color: #8f96a3; }
+.st-fo-leaders { display: flex; flex-direction: column; gap: 8px; }
+.st-fo-leaders span { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 11px; border-radius: 10px; background: #121723; font-size: 11px; }
+.st-fo-leaders em { color: #8f96a3; font-style: normal; }
+.st-rail { position: sticky; top: 0; display: flex; flex-direction: column; gap: 20px; }
+.st-rail section { min-width: 0; }
+.st-rail h3 { margin: 0 0 8px; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; font-size: 15px; font-weight: 600; }
+.st-report-list { overflow: hidden; border-radius: 16px; background: #121723; }
+.st-report-list button { width: 100%; min-height: 44px; padding: 0 14px; border: 0; border-bottom: 1px solid #303744; background: transparent; color: #fff; text-align: left; cursor: pointer; font-size: 12px; }
+.st-report-list button:last-child { border-bottom: 0; }
+.st-report-list button.active { background: #1d3473; border-left: 4px solid #2155fc; text-align: right; font-weight: 600; }
+.st-select { width: 100%; min-height: 40px; margin-bottom: 8px; padding: 0 14px; border: 0; border-radius: 12px; background: #1c212c; color: #fff; display: flex; align-items: center; justify-content: space-between; }
+.st-game-facts { padding: 12px; border-radius: 16px; background: #121723; }
+.st-game-facts dl { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.st-game-facts dl > div { display: flex; justify-content: space-between; gap: 12px; font-size: 11px; }
+.st-game-facts dt { color: #8f96a3; }.st-game-facts dd { margin: 0; font-weight: 600; }
+@media (max-width: 980px) { .st-page { grid-template-columns: minmax(0, 1fr) 270px; } .st-fo-content { grid-template-columns: 130px .8fr 1fr; } }
+
+
+/* v0.1 static approved interaction */
+.stats-page *, .stats-root * { animation: none !important; transition: none !important; }
+.hd-panel { box-shadow: none !important; }
