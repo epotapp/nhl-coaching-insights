@@ -19,7 +19,8 @@ import {
   type LiveStats,
   type StackEntry,
 } from "./ExpandedViews";
-import { mmss, useGameSim } from "./gameSim";
+import { mmss } from "./gameSim";
+import { useNhlGame4 } from "./api/useNhlGame4";
 import { AiFaceoffVisual, AiRelatedFullView, AiRelatedMiniatures, type AiRelatedKey } from "./AiInsightViews";
 import { useNhlDashboardSnapshot } from "./data/useNhlDashboardSnapshot";
 import type { DashboardSnapshot } from "./data/nhlDataClient";
@@ -121,7 +122,7 @@ function Panel({
   );
 }
 
-function DemoControls({ sim }: { sim: ReturnType<typeof useGameSim> }) {
+function DemoControls({ sim }: { sim: ReturnType<typeof useNhlGame4> }) {
   if (sim.mode === "idle") {
     return (
       <button className="hd-nav-btn hd-demo-start" type="button" onClick={sim.start}>
@@ -159,7 +160,7 @@ function SearchBar() {
   );
 }
 
-function TeamScore({ sim, snapshot }: { sim: ReturnType<typeof useGameSim>; snapshot: DashboardSnapshot | null }) {
+function TeamScore({ sim, snapshot }: { sim: ReturnType<typeof useNhlGame4>; snapshot: DashboardSnapshot | null }) {
   const idle = sim.mode === "idle";
   const carScore = snapshot?.live.score.away ?? (idle ? 5 : sim.score.car);
   const vgkScore = snapshot?.live.score.home ?? (idle ? 3 : sim.score.vgk);
@@ -208,7 +209,7 @@ function PlayerToi({
   );
 }
 
-function FaceoffCard({ sim, onExpand }: { sim: ReturnType<typeof useGameSim>; onExpand: () => void }) {
+function FaceoffCard({ sim, onExpand }: { sim: ReturnType<typeof useNhlGame4>; onExpand: () => void }) {
   const idle = sim.mode === "idle";
   const car = idle ? GAME4_TEAM_TOTALS.CAR.faceoffWins : sim.team.foW;
   const vgk = idle ? GAME4_TEAM_TOTALS.VGK.faceoffWins : sim.team.foL;
@@ -240,7 +241,7 @@ function FaceoffCard({ sim, onExpand }: { sim: ReturnType<typeof useGameSim>; on
   );
 }
 
-function ShotsCard({ sim, onExpand, snapshot, theme }: { sim: ReturnType<typeof useGameSim>; onExpand: () => void; snapshot: DashboardSnapshot | null; theme: Theme }) {
+function ShotsCard({ sim, onExpand, snapshot, theme }: { sim: ReturnType<typeof useNhlGame4>; onExpand: () => void; snapshot: DashboardSnapshot | null; theme: Theme }) {
   const idle = sim.mode === "idle";
   const car = snapshot?.live.shotsOnGoal.away ?? (idle ? GAME4_TEAM_TOTALS.CAR.shots : sim.team.sogCar);
   const vgk = snapshot?.live.shotsOnGoal.home ?? (idle ? GAME4_TEAM_TOTALS.VGK.shots : sim.team.sogVgk);
@@ -263,7 +264,7 @@ function AiPanel({
   onToggleExpanded,
   onOpenRelated,
 }: {
-  sim: ReturnType<typeof useGameSim>;
+  sim: ReturnType<typeof useNhlGame4>;
   snapshot: DashboardSnapshot | null;
   expanded: boolean;
   onToggleExpanded: () => void;
@@ -329,7 +330,7 @@ function ConciseStat({ label, value, context, onClick }: { label: string; value:
   );
 }
 
-function OtherInsights({ sim }: { sim: ReturnType<typeof useGameSim> }) {
+function OtherInsights({ sim }: { sim: ReturnType<typeof useNhlGame4> }) {
   const idle = sim.mode === "idle";
   const carPPOpps = GAME4_PENALTIES.filter(event =>
     event.team === "VGK" && event.elapsed <= sim.elapsed && event.elapsed !== 2310,
@@ -372,7 +373,7 @@ export function InteractiveDashboard() {
   const [detailStack, setDetailStack] = useState<StackEntry[]>([]);
   const [aiExpanded, setAiExpanded] = useState(false);
   const [aiRelated, setAiRelated] = useState<AiRelatedKey | null>(null);
-  const sim = useGameSim();
+  const sim = useNhlGame4();
   const database = useNhlDashboardSnapshot(GAME4_META.gameId, sim.mode === "idle" ? 3600 : sim.elapsed);
   const databaseSnapshot = database.snapshot;
 

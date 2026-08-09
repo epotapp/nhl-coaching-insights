@@ -37,6 +37,8 @@ jobs:
 
       - name: Build static application
         shell: bash
+        env:
+          VITE_NHL_FASTAPI_BASE_URL: ${{ vars.VITE_NHL_FASTAPI_BASE_URL || 'https://consisting-mill-gps-recorder.trycloudflare.com' }}
         run: |
           REPOSITORY_NAME="${GITHUB_REPOSITORY#*/}"
           BASE_PATH="/${REPOSITORY_NAME}/" pnpm build:frontend
