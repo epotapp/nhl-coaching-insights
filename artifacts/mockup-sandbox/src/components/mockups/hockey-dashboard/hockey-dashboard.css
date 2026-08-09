@@ -326,7 +326,6 @@
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
 }
-.hd-check.red   { background: #c50b3e; color: #fff; }
 .hd-check.white { background: #E8EFF7; color: #2b2a40; }
 
 /* PP / gauge */

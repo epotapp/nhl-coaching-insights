@@ -10,6 +10,7 @@ import {
   GAME4_GOALS,
   GAME4_TEAM_TOTALS,
   type PlayerGame4,
+  playerHeadshot,
 } from "../game4Data";
 import { mmss } from "../gameSim";
 import "./player-insights.css";
@@ -601,10 +602,10 @@ export function PlayerInsightsPage({ theme }: PageProps) {
 
       <div className="pi-rail">
         {filtered.map(player => (
-          <button type="button" key={player.num} className={`pi-card${player.num === selected.num ? " pi-card-on" : ""}`} onClick={() => setSelId(player.num)}>
+          <button type="button" key={player.num} className={`pi-card${player.num === selected.num ? " pi-card-on" : ""}`} data-player-number={player.num} onClick={() => setSelId(player.num)}>
             <span className="pi-card-num">#{player.num}</span>
             {SAVED.has(player.num) && <span className="pi-card-star"><HdIcon name="bookmark" size={11} /></span>}
-            <img className="pi-card-portrait" src={`${img}face${player.face}.png`} alt={player.name} />
+            <img className="pi-card-portrait" src={playerHeadshot(player)} alt={player.name} />
             <span className="pi-card-name">{player.short}</span>
             <span className="pi-card-pos">{player.pos}</span>
           </button>

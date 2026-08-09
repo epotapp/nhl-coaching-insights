@@ -361,8 +361,8 @@ function Step3({
       {/* adaptive theme */}
       <div className="hd-ob-ctrl-row" style={{ marginBottom: 6, alignItems: "flex-start" }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "#e8e5ea", marginBottom: 3 }}>Adaptive Theme</div>
-          <div style={{ fontSize: 11.5, color: "#555", lineHeight: 1.45, maxWidth: 340 }}>
+          <div className="hd-ob-section-title">Adaptive Theme</div>
+          <div className="hd-ob-section-description" style={{ maxWidth: 340 }}>
             Your screen changes to an easy-to-view dark look at night and a brighter theme during the day
           </div>
         </div>
@@ -408,8 +408,8 @@ function Step4({
       </div>
 
       <div style={{ marginBottom: 28 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#e8e5ea", marginBottom: 3 }}>Information Density</div>
-        <div style={{ fontSize: 11.5, color: "#555", marginBottom: 14 }}>
+        <div className="hd-ob-section-title">Information Density</div>
+        <div className="hd-ob-section-description" style={{ marginBottom: 14 }}>
           Adjust the amount of information and widgets shown at once
         </div>
         <input

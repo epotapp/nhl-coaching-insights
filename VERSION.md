@@ -1,14 +1,12 @@
-# NHL Coaching Insights — Version 0.3.0
+# NHL Coaching Insights — Version 0.4.0
 
-**Package:** `nhl-dashboard-v0.3`
+**Package:** `nhl-dashboard-v0.4`
 
-Version 0.3 applies the supplied Figma icon library across the interface, replaces the oversized navigation treatment with the approved compact menu, aligns the application with the SF Pro 18/20/24 typography hierarchy, makes all bundled assets safe for GitHub Pages base paths, and adds a production static-deployment workflow and SPA fallback.
+Version 0.4 adds Apple-style Dashboard widget customization with approved-palette blue remove controls, corrects the approved Calendar page and drawer, verifies Carolina portrait identity mapping, fixes Nikolaj Ehlers’ crop, converts Player Insights and Video player lists to single-row horizontal rails, removes the broken Stats selection strip, completes onboarding and application light-theme surfaces, and replaces the worded Restart control with a timestamp-correct **back 10 sec** action while retaining the icon-only reset.
 
-The v0.2 functionality remains included: dark/light themes, AI Insights expansion, adaptive Player Insights layouts, timestamp-aware demo controls, 17 bundled video clips, and the optional PostgreSQL/Express backend.
+## Compatibility
 
-See:
-
-- `docs/V0.3_CHANGELOG.md`
-- `docs/DEPLOYMENT.md`
-- `docs/POSTGRESQL_SETUP.md`
-- `DATA-SOURCES.md`
+- iPad 11-inch landscape target.
+- Responsive desktop web demonstration.
+- Static GitHub Pages deployment.
+- Optional PostgreSQL-backed data service.

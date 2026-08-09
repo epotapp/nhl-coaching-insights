@@ -2,7 +2,7 @@ name: Deploy NHL Coaching Insights to GitHub Pages
 
 on:
   push:
-    branches: [main, master, nhl-v0.3]
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -29,11 +29,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts
+        run: pnpm install --frozen-lockfile
 
       - name: Build static application
         shell: bash

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { HdIcon } from "./HdIcon";
 import { imageBase, videoBase } from "./assets";
-import { CAR_PLAYERS, GAME4_TEAM_TOTALS } from "./game4Data";
+import { CAR_PLAYERS, playerHeadshot, GAME4_TEAM_TOTALS } from "./game4Data";
 
 export type DetailStat = "toi" | "fo" | "sog";
 export type StackEntry =
@@ -132,7 +132,7 @@ export function WidgetDetailView({ stat, onCollapse, onOpenVideo, live }: {
       <div className="hd-detail-list">
         {rows.map(player => (
           <div className="hd-detail-row" key={player.num}>
-            <img src={`${imageBase}face${player.face}.png`} alt="" className="hd-detail-face" />
+            <img src={playerHeadshot(player)} alt="" className="hd-detail-face" />
             <span className="hd-detail-num">#{player.num}</span>
             <span className="hd-detail-name">{player.name}</span>
             <strong className="hd-detail-val">{live ? liveValue(player, stat, live) : finalValue(player, stat)}</strong>

@@ -572,3 +572,28 @@
 /* v0.2 static approved interaction */
 .video-page *, .video-root * { animation: none !important; transition: none !important; }
 .hd-panel { box-shadow: none !important; }
+
+/* v0.4 — single-row, touch-scrollable player miniatures */
+.vd-player-filter { margin: 0 0 22px; min-width: 0; }
+.vd-player-filter-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0 0 10px; }
+.vd-player-filter-head strong { color:var(--hd-text); font-size:15px; }
+.vd-player-filter-head span { color:var(--hd-muted); font-size:11px; }
+.vd-player-strip {
+  width:100%; display:flex; flex-wrap:nowrap; gap:12px; overflow-x:auto; overflow-y:hidden;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-inline:contain;
+  scroll-snap-type:x proximity; padding:0 2px 3px;
+}
+.vd-player-strip::-webkit-scrollbar { display:none; }
+.vd-player-card {
+  position:relative; flex:0 0 96px; width:96px; min-width:96px; height:118px; padding:9px 7px 8px;
+  border:0; border-radius:18px; background:var(--hd-card-compact); color:var(--hd-text);
+  display:grid; grid-template-rows:1fr auto auto; justify-items:center; align-items:center; gap:2px;
+  scroll-snap-align:start; overflow:hidden; box-shadow:none;
+}
+.vd-player-card:hover { background:var(--hd-card-raised); }
+.vd-player-card.active { background:var(--hd-card-raised); outline:2px solid var(--hd-accent); outline-offset:-2px; }
+.vd-player-card > img { width:54px; height:54px; border-radius:50%; object-fit:contain; object-position:center bottom; filter:grayscale(1); background:color-mix(in srgb,var(--hd-card-raised) 86%,transparent); }
+.vd-player-card > span:not(.vd-player-card-num) { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:10.5px; font-weight:650; }
+.vd-player-card > small { color:var(--hd-muted); font-size:9px; }
+.vd-player-card-num { position:absolute; top:7px; left:7px; padding:3px 5px; border-radius:999px; background:color-mix(in srgb,var(--hd-card-raised) 75%,transparent); color:var(--hd-muted); font-size:9px; font-weight:700; z-index:2; }
+.vd-player-card-all > img { padding:7px; box-sizing:border-box; filter:none; }

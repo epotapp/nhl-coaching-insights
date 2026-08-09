@@ -579,3 +579,35 @@ button.pi-statbar-chip:hover { background: var(--hd-card-raised); }
 
 /* The approved prototype deliberately avoids animated counters and reflow. */
 .pi-page *, .pi-page *::before, .pi-page *::after { animation: none !important; transition: none !important; }
+
+/* v0.4 — approved single-row player rail */
+.pi-rail {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 12px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 2px 2px;
+}
+.pi-rail::-webkit-scrollbar { display: none; }
+.pi-card {
+  flex: 0 0 96px !important;
+  width: 96px !important;
+  min-width: 96px !important;
+  scroll-snap-align: start;
+}
+.pi-card-portrait {
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  background: color-mix(in srgb, var(--hd-card-raised) 88%, transparent);
+  padding: 1px 2px 0;
+  box-sizing: border-box;
+}
+@media (max-width: 980px) {
+  .pi-rail { display: flex !important; grid-template-columns: none !important; }
+  .pi-card { flex-basis: 88px !important; width: 88px !important; min-width: 88px !important; }
+}

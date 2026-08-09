@@ -1,0 +1,12 @@
+{
+  "version": "0.4.0",
+  "packageName": "nhl-dashboard-v0.4.zip",
+  "expectedRootDirectory": "nhl-dashboard-v0.4/",
+  "sourceValidation": "docs/V0.4_SOURCE_VALIDATION.json",
+  "semanticTypecheck": "docs/V0.4_SEMANTIC_TYPECHECK.json",
+  "mediaValidation": "docs/V0.4_MEDIA_VALIDATION.json",
+  "seedValidation": "docs/V0.4_SEED_VALIDATION.json",
+  "archiveIntegrityCommand": "unzip -t nhl-dashboard-v0.4.zip",
+  "checksum": "Published in the external .sha256 sidecar to avoid a self-referential archive checksum.",
+  "buildNote": "The frozen pnpm production build runs in the included GitHub Pages workflow because package installation is unavailable in the offline authoring environment."
+}

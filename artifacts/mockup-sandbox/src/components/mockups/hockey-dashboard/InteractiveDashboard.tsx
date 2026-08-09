@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { RotateCw } from "lucide-react";
 import "./hockey-dashboard.css";
 import "./pages/pages-shared.css";
@@ -30,13 +30,27 @@ import {
   GAME4_GOALS,
   GAME4_PENALTIES,
   GAME4_TEAM_TOTALS,
+  playerHeadshot,
 } from "./game4Data";
 import "./v0.2-polish.css";
 import "./v0.3-polish.css";
-import { HdIcon } from "./HdIcon";
+import "./v0.4-polish.css";
+import { HdIcon, type HdIconName } from "./HdIcon";
 import { imageBase } from "./assets";
+import {
+  DASHBOARD_WIDGETS,
+  DEFAULT_DASHBOARD_LAYOUT,
+  PlacementSlot,
+  WidgetCatalog,
+  WidgetEditChrome,
+  allowedZonesForSize,
+  type DashboardLayoutItem,
+  type DashboardWidgetId,
+  type DashboardWidgetSize,
+  type DashboardWidgetZone,
+} from "./DashboardCustomization";
 
-export const NHL_DASHBOARD_VERSION = "0.3.0";
+export const NHL_DASHBOARD_VERSION = "0.4.0";
 
 type FlowStep = "login" | ObStep | "dashboard";
 type Theme = "dark" | "light";
@@ -87,6 +101,22 @@ function initialThemeState(): Theme {
   return saved === "light" ? "light" : "dark";
 }
 
+function initialDashboardLayout(): DashboardLayoutItem[] {
+  if (typeof window === "undefined") return DEFAULT_DASHBOARD_LAYOUT;
+  try {
+    const raw = window.localStorage.getItem("nhl-dashboard-layout-v0.4");
+    if (!raw) return DEFAULT_DASHBOARD_LAYOUT;
+    const parsed = JSON.parse(raw) as DashboardLayoutItem[];
+    const validIds = new Set(DASHBOARD_WIDGETS.map(widget => widget.id));
+    const validZones = new Set<DashboardWidgetZone>(["top", "lower", "rail", "other"]);
+    const validSizes = new Set<DashboardWidgetSize>(["small", "medium", "large"]);
+    const cleaned = parsed.filter(item => validIds.has(item.id) && validZones.has(item.zone) && validSizes.has(item.size));
+    return cleaned.length ? cleaned : DEFAULT_DASHBOARD_LAYOUT;
+  } catch {
+    return DEFAULT_DASHBOARD_LAYOUT;
+  }
+}
+
 function IconButton({ label, onClick, children }: { label: string; onClick?: () => void; children: ReactNode }) {
   return <button type="button" className="hd-ibtn" aria-label={label} onClick={onClick}>{children}</button>;
 }
@@ -132,7 +162,7 @@ function DemoControls({ sim }: { sim: ReturnType<typeof useGameSim> }) {
 
   return (
     <>
-      <button className="hd-nav-btn" type="button" onClick={sim.restart}><RotateCw size={14} /> Restart</button>
+      <button className="hd-nav-btn hd-cheat" type="button" onClick={() => sim.skip(-10)}><HdIcon name="back-10" size={14} /> back 10 sec</button>
       <button className="hd-nav-btn hd-cheat" type="button" onClick={() => sim.skip(30)}>skip 30 sec</button>
       <button className="hd-nav-btn hd-cheat" type="button" onClick={() => sim.skip(300)}>skip 5 min</button>
       <button
@@ -198,7 +228,7 @@ function PlayerToi({
   return (
     <article className={`hd-toi-player${onIce ? " hd-player-onice" : ""}`}>
       <div className="hd-toi-face-wrap">
-        <img src={`${imageBase}face${player.face}.png`} alt={player.name} className="hd-toi-face" />
+        <img src={playerHeadshot(player)} alt={player.name} className="hd-toi-face" />
         {onIce && <span className="hd-onice-dot" aria-label="On ice" />}
       </div>
       <span className="hd-toi-name">{player.short}</span>
@@ -229,7 +259,7 @@ function FaceoffCard({ sim, onExpand }: { sim: ReturnType<typeof useGameSim>; on
           const l = idle ? player.foL ?? 0 : live?.l ?? 0;
           return (
             <div key={player.num}>
-              <img src={`${imageBase}face${player.face}.png`} alt="" />
+              <img src={playerHeadshot(player)} alt="" />
               <span>{player.short}</span>
               <strong>{w}-{l}</strong>
             </div>
@@ -356,6 +386,81 @@ function OtherInsights({ sim }: { sim: ReturnType<typeof useGameSim> }) {
   );
 }
 
+function CompactDashboardStat({ icon = "game-pulse", label, value, context }: { icon?: HdIconName; label: string; value: string; context?: string }) {
+  return (
+    <article className="hd-custom-compact">
+      <HdIcon name={icon} size={15} />
+      <div><span>{label}</span><strong>{value}</strong>{context && <small>{context}</small>}</div>
+    </article>
+  );
+}
+
+function AddedDashboardWidget({
+  id,
+  size,
+  sim,
+  theme,
+}: {
+  id: DashboardWidgetId;
+  size: DashboardWidgetSize;
+  sim: ReturnType<typeof useGameSim>;
+  theme: Theme;
+}) {
+  const idle = sim.mode === "idle";
+  if (id === "gameFlow") {
+    return (
+      <Panel title="Game Flow" icon={<HdIcon name="chart" size={17} />} className={`hd-added-panel hd-added-${size}`}>
+        <div className="hd-added-chart-copy"><strong>{idle ? "28–21" : `${sim.team.sogCar}–${sim.team.sogVgk}`}</strong><span>Shots on goal · CAR–VGK</span></div>
+        <img className="hd-added-chart" src={`${imageBase}charts/game-flow${theme === "light" ? "-light" : ""}.png`} alt="Cumulative shots on goal" />
+      </Panel>
+    );
+  }
+  if (id === "penaltyWatch") {
+    const rows = GAME4_PENALTIES.filter(event => idle || event.elapsed <= sim.elapsed).slice(-4).reverse();
+    return (
+      <Panel title="Penalty Watch" icon={<HdIcon name="notes" size={17} />} className={`hd-added-panel hd-added-${size}`}>
+        <div className="hd-added-list">
+          {(rows.length ? rows : GAME4_PENALTIES.slice(0, 3)).map((event, index) => (
+            <article key={`${event.elapsed}-${index}`}><i className={`team-${event.team.toLowerCase()}`} /><div><strong>{event.player ?? `${event.team} bench`}</strong><span>{event.detail}</span></div><small>P{event.period} · {event.clock}</small></article>
+          ))}
+        </div>
+      </Panel>
+    );
+  }
+  if (id === "lineMatchups") {
+    const matchups = [
+      ["Staal · Martinook · Jarvis", "Eichel line", "Defensive-zone priority"],
+      ["Aho · Svechnikov · Blake", "Karlsson line", "Transition attack"],
+      ["Ehlers · Stankoven · Hall", "Hertl line", "Speed advantage"],
+    ];
+    return (
+      <Panel title="Line Matchups" icon={<HdIcon name="player" size={17} />} className={`hd-added-panel hd-added-${size}`}>
+        <div className="hd-matchup-list">{matchups.map(([car, vgk, note]) => <article key={car}><strong>{car}</strong><span>vs {vgk}</span><small>{note}</small></article>)}</div>
+      </Panel>
+    );
+  }
+  if (id === "shotQuality") {
+    if (size === "small") return <CompactDashboardStat icon="shooting-sector" label="High-danger share" value="58%" context="11–8 chances" />;
+    return (
+      <Panel title="Shot Quality" icon={<HdIcon name="shooting-sector" size={17} />} className="hd-added-panel hd-added-medium">
+        <div className="hd-quality-hero"><strong>58%</strong><span>High-danger chance share</span></div>
+        <div className="hd-quality-grid"><div><span>CAR</span><strong>11</strong></div><div><span>VGK</span><strong>8</strong></div><div><span>Goals</span><strong>5–3</strong></div></div>
+      </Panel>
+    );
+  }
+  if (id === "restRisk") {
+    const longest = [...primaryPlayers].sort((a, b) => b.toi / b.shifts - a.toi / a.shifts)[0];
+    const avg = Math.round(longest.toi / longest.shifts);
+    if (size === "small") return <CompactDashboardStat icon="counter" label="Rest Risk" value={`${avg}s`} context={`${longest.short} avg shift`} />;
+    return (
+      <Panel title="Rest Risk" icon={<HdIcon name="counter" size={17} />} className="hd-added-panel hd-added-medium">
+        <div className="hd-rest-risk"><strong>{avg}s</strong><span>Longest average shift · {longest.short}</span><i><b style={{ width: `${Math.min(100, avg * 1.55)}%` }} /></i><small>Review late-game recovery before the next matchup.</small></div>
+      </Panel>
+    );
+  }
+  return null;
+}
+
 export function InteractiveDashboard() {
   const preview = useMemo(initialPreviewState, []);
   const [flow, setFlow] = useState<FlowStep>(preview.flow);
@@ -372,6 +477,13 @@ export function InteractiveDashboard() {
   const [detailStack, setDetailStack] = useState<StackEntry[]>([]);
   const [aiExpanded, setAiExpanded] = useState(false);
   const [aiRelated, setAiRelated] = useState<AiRelatedKey | null>(null);
+  const [dashboardLayout, setDashboardLayout] = useState<DashboardLayoutItem[]>(initialDashboardLayout);
+  const [widgetEditMode, setWidgetEditMode] = useState(false);
+  const [widgetCatalogOpen, setWidgetCatalogOpen] = useState(false);
+  const [pendingWidget, setPendingWidget] = useState<{ id: DashboardWidgetId; size: DashboardWidgetSize } | null>(null);
+  const longPressTimer = useRef<number | null>(null);
+  const longPressOrigin = useRef<{ x: number; y: number } | null>(null);
+  const longPressTriggered = useRef(false);
   const sim = useGameSim();
   const database = useNhlDashboardSnapshot(GAME4_META.gameId, sim.mode === "idle" ? 3600 : sim.elapsed);
   const databaseSnapshot = database.snapshot;
@@ -379,6 +491,78 @@ export function InteractiveDashboard() {
   useEffect(() => {
     window.localStorage.setItem("nhl-coaching-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    window.localStorage.setItem("nhl-dashboard-layout-v0.4", JSON.stringify(dashboardLayout));
+  }, [dashboardLayout]);
+
+  useEffect(() => () => {
+    if (longPressTimer.current !== null) window.clearTimeout(longPressTimer.current);
+  }, []);
+
+  const clearLongPress = () => {
+    if (longPressTimer.current !== null) window.clearTimeout(longPressTimer.current);
+    longPressTimer.current = null;
+    longPressOrigin.current = null;
+  };
+
+  const isFreeDashboardTarget = (target: EventTarget | null) => {
+    const element = target instanceof HTMLElement ? target : null;
+    return Boolean(element && !element.closest("[data-widget], button, input, a, .hd-widget-catalog, .hd-widget-edit-toolbar"));
+  };
+
+  const onDashboardPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
+    if (event.button !== 0 || !isFreeDashboardTarget(event.target)) return;
+    longPressTriggered.current = false;
+    longPressOrigin.current = { x: event.clientX, y: event.clientY };
+    if (!widgetEditMode) {
+      longPressTimer.current = window.setTimeout(() => {
+        longPressTriggered.current = true;
+        setWidgetEditMode(true);
+        setWidgetCatalogOpen(false);
+        setPendingWidget(null);
+      }, 560);
+    }
+  };
+
+  const onDashboardPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    const origin = longPressOrigin.current;
+    if (!origin) return;
+    if (Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 9) clearLongPress();
+  };
+
+  const onDashboardPointerUp = (event: ReactPointerEvent<HTMLElement>) => {
+    const wasTriggered = longPressTriggered.current;
+    clearLongPress();
+    if (widgetEditMode && !widgetCatalogOpen && !pendingWidget && !wasTriggered && isFreeDashboardTarget(event.target)) {
+      setWidgetEditMode(false);
+    }
+    longPressTriggered.current = false;
+  };
+
+  const removeDashboardWidget = (id: DashboardWidgetId) => {
+    setDashboardLayout(layout => layout.filter(item => item.id !== id));
+    if (id === "ai") setAiExpanded(false);
+  };
+
+  const chooseDashboardWidget = (id: DashboardWidgetId, size: DashboardWidgetSize) => {
+    setPendingWidget({ id, size });
+    setWidgetCatalogOpen(false);
+    setWidgetEditMode(true);
+  };
+
+  const placeDashboardWidget = (zone: DashboardWidgetZone) => {
+    if (!pendingWidget || !allowedZonesForSize(pendingWidget.size).includes(zone)) return;
+    setDashboardLayout(layout => [...layout.filter(item => item.id !== pendingWidget.id), { ...pendingWidget, zone }]);
+    setPendingWidget(null);
+  };
+
+  const resetDashboardWidgets = () => {
+    setDashboardLayout(DEFAULT_DASHBOARD_LAYOUT);
+    setPendingWidget(null);
+    setWidgetCatalogOpen(false);
+    setAiExpanded(false);
+  };
 
   const openDetail = (stat: DetailStat) => {
     setAiExpanded(false);
@@ -458,64 +642,117 @@ export function InteractiveDashboard() {
     const staalGoals = idle
       ? 2
       : GAME4_GOALS.filter(event => event.playerNum === 11 && event.elapsed <= sim.elapsed).length;
-    return (
-      <main className="hd-dashboard">
-        <TeamScore sim={sim} snapshot={databaseSnapshot} />
-        <div className={`hd-dashboard-grid${aiExpanded ? " hd-dashboard-grid-ai-expanded" : ""}`}>
-          <div className="hd-dashboard-main">
-            <Panel title="Player TOI and Rest Time" icon={<HdIcon name="player" size={17} />} className="hd-toi-panel" onExpand={() => openDetail("toi")}>
-              <div className="hd-toi-list">
-                {primaryPlayers.map(player => {
-                  const databasePlayer = databaseSnapshot?.players.find(item => item.team_code === "CAR" && item.jersey_number === player.num);
-                  return (
-                  <PlayerToi
-                    key={player.num}
-                    player={player}
-                    seconds={databasePlayer?.live_toi_seconds ?? (idle ? player.toi : sim.toi[player.num] ?? 0)}
-                    onIce={databasePlayer?.on_ice ?? (!idle && sim.onIce.has(player.num))}
-                  />
-                  );
-                })}
-              </div>
-            </Panel>
-            <div className="hd-lower-grid">
-              <FaceoffCard sim={sim} onExpand={() => openDetail("fo")} />
-              <ShotsCard sim={sim} snapshot={databaseSnapshot} theme={theme} onExpand={() => openDetail("sog")} />
+    const carShots = databaseSnapshot?.live.shotsOnGoal.away ?? (idle ? 28 : sim.team.sogCar);
+    const vgkShots = databaseSnapshot?.live.shotsOnGoal.home ?? (idle ? 21 : sim.team.sogVgk);
+    const carPPOpps = idle ? 3 : GAME4_PENALTIES.filter(event => event.team === "VGK" && event.elapsed <= sim.elapsed && event.elapsed !== 2310).length;
+    const carPPGoals = idle ? 1 : GAME4_GOALS.filter(event => event.team === "CAR" && event.strength === "PP" && event.elapsed <= sim.elapsed).length;
+    const compactValues: Partial<Record<DashboardWidgetId, { label: string; value: string; context?: string; icon?: HdIconName }>> = {
+      powerPlay: { label: "Power Play", value: `${carPPGoals}/${carPPOpps}`, context: carPPOpps ? `${Math.round((carPPGoals / carPPOpps) * 100)}% conversion` : "No opportunities" },
+      hits: { label: "Hits", value: idle ? "34–38" : `${sim.team.hitCar}–${sim.team.hitVgk}`, context: "CAR–VGK" },
+      blocks: { label: "Blocks", value: idle ? "16–12" : `${sim.team.blockCar}–${sim.team.blockVgk}`, context: "CAR–VGK" },
+      takeaways: { label: "Takeaways", value: idle ? "7–3" : `${sim.team.takeCar}–${sim.team.takeVgk}`, context: "CAR–VGK" },
+      pim: { label: "PIM", value: idle ? "8–8" : `${sim.team.pimCar}–${sim.team.pimVgk}`, context: "CAR–VGK" },
+    };
+    const itemsFor = (zone: DashboardWidgetZone) => dashboardLayout.filter(item => item.zone === zone);
+    const pendingDefinition = pendingWidget ? DASHBOARD_WIDGETS.find(widget => widget.id === pendingWidget.id) : null;
+    const placementFor = (zone: DashboardWidgetZone) => pendingWidget && allowedZonesForSize(pendingWidget.size).includes(zone)
+      ? <PlacementSlot zone={zone} label={pendingDefinition?.name ?? "Widget"} onPlace={() => placeDashboardWidget(zone)} />
+      : null;
+
+    const renderDashboardWidget = (item: DashboardLayoutItem) => {
+      const definition = DASHBOARD_WIDGETS.find(widget => widget.id === item.id);
+      let content: ReactNode = null;
+      if (item.id === "toi") {
+        content = (
+          <Panel title="Player TOI and Rest Time" icon={<HdIcon name="player" size={17} />} className={`hd-toi-panel hd-widget-size-${item.size}`} onExpand={() => openDetail("toi")}>
+            <div className="hd-toi-list">
+              {primaryPlayers.map(player => {
+                const databasePlayer = databaseSnapshot?.players.find(row => row.team_code === "CAR" && row.jersey_number === player.num);
+                return <PlayerToi key={player.num} player={player} seconds={databasePlayer?.live_toi_seconds ?? (idle ? player.toi : sim.toi[player.num] ?? 0)} onIce={databasePlayer?.on_ice ?? (!idle && sim.onIce.has(player.num))} />;
+              })}
             </div>
-            <OtherInsights sim={sim} />
+          </Panel>
+        );
+      } else if (item.id === "faceoff") {
+        content = <FaceoffCard sim={sim} onExpand={() => openDetail("fo")} />;
+      } else if (item.id === "shots") {
+        content = <ShotsCard sim={sim} snapshot={databaseSnapshot} theme={theme} onExpand={() => openDetail("sog")} />;
+      } else if (item.id === "ai") {
+        content = (
+          <AiPanel
+            sim={sim}
+            snapshot={databaseSnapshot}
+            expanded={aiExpanded}
+            onToggleExpanded={() => { setDetailStack([]); setAiRelated(null); setAiExpanded(value => !value); }}
+            onOpenRelated={setAiRelated}
+          />
+        );
+      } else if (item.id === "foEdge") {
+        content = <ConciseStat label="Faceoff Edge" value={`${idle ? 57 : sim.team.foCarPct}%`} context={`${idle ? 29 : sim.team.foW} CAR wins`} onClick={() => openDetail("fo")} />;
+      } else if (item.id === "shotsEdge") {
+        content = <ConciseStat label="Shots on Goal" value={`${carShots} | ${vgkShots}`} context="CAR | VGK" onClick={() => openDetail("sog")} />;
+      } else if (item.id === "goals") {
+        content = <ConciseStat label="Player Goals" value={String(staalGoals)} context="Jordan Staal" onClick={() => { setAiExpanded(false); setPage("Player Insights"); }} />;
+      } else if (compactValues[item.id]) {
+        const stat = compactValues[item.id]!;
+        content = <CompactDashboardStat icon={stat.icon} label={stat.label} value={stat.value} context={stat.context} />;
+      } else {
+        content = <AddedDashboardWidget id={item.id} size={item.size} sim={sim} theme={theme} />;
+      }
+      return (
+        <WidgetEditChrome
+          key={item.id}
+          active={widgetEditMode}
+          label={definition?.name ?? item.id}
+          onRemove={() => removeDashboardWidget(item.id)}
+          className={`hd-layout-widget hd-layout-widget-${item.id} hd-layout-widget-${item.size}`}
+        >
+          {content}
+        </WidgetEditChrome>
+      );
+    };
+
+    const topItems = itemsFor("top");
+    const lowerItems = itemsFor("lower");
+    const otherItems = itemsFor("other");
+    const railItems = itemsFor("rail");
+    const mainIsEmpty = !topItems.length && !lowerItems.length && !otherItems.length && !pendingWidget;
+
+    return (
+      <main
+        className={`hd-dashboard${widgetEditMode ? " hd-widget-edit-mode" : ""}`}
+        onPointerDown={onDashboardPointerDown}
+        onPointerMove={onDashboardPointerMove}
+        onPointerUp={onDashboardPointerUp}
+        onPointerCancel={clearLongPress}
+      >
+        {widgetEditMode && (
+          <div className="hd-widget-edit-toolbar">
+            <button type="button" className="hd-add-widgets-button" onClick={event => { event.stopPropagation(); setWidgetCatalogOpen(true); setPendingWidget(null); }}><HdIcon name="new-note" size={16} /> Add Widgets</button>
+            <span>{pendingWidget ? `Choose where to place ${pendingDefinition?.name ?? "the widget"}.` : "Tap any minus button to remove a widget. Tap free space when finished."}</span>
+            <button type="button" onClick={event => { event.stopPropagation(); resetDashboardWidgets(); }}>Reset layout</button>
+            <button type="button" className="hd-widget-done" onClick={event => { event.stopPropagation(); setWidgetEditMode(false); setPendingWidget(null); setWidgetCatalogOpen(false); }}>Done</button>
+          </div>
+        )}
+        <TeamScore sim={sim} snapshot={databaseSnapshot} />
+        <div className={`hd-dashboard-grid${aiExpanded ? " hd-dashboard-grid-ai-expanded" : ""}${mainIsEmpty ? " hd-dashboard-grid-main-empty" : ""}`}>
+          <div className="hd-dashboard-main">
+            <div className="hd-dashboard-zone hd-dashboard-zone-top">{topItems.map(renderDashboardWidget)}{placementFor("top")}</div>
+            <div className="hd-dashboard-zone hd-dashboard-zone-lower">{lowerItems.map(renderDashboardWidget)}{placementFor("lower")}</div>
+            {(otherItems.length > 0 || placementFor("other")) && (
+              <section className="hd-other hd-dashboard-zone-other">
+                <h2>Other Insights</h2>
+                <div className="hd-other-row">{otherItems.map(renderDashboardWidget)}{placementFor("other")}</div>
+              </section>
+            )}
           </div>
           <aside className={`hd-dashboard-rail${aiExpanded ? " hd-dashboard-rail-expanded" : ""}`}>
-            <AiPanel
-              sim={sim}
-              snapshot={databaseSnapshot}
-              expanded={aiExpanded}
-              onToggleExpanded={() => { setDetailStack([]); setAiRelated(null); setAiExpanded(value => !value); }}
-              onOpenRelated={setAiRelated}
-            />
-            {!aiExpanded && (
-              <>
-                <ConciseStat
-                  label="Faceoff Edge"
-                  value={`${idle ? 57 : sim.team.foCarPct}%`}
-                  context={`${idle ? 29 : sim.team.foW} CAR wins`}
-                  onClick={() => openDetail("fo")}
-                />
-                <ConciseStat
-                  label="Shots on Goal"
-                  value={`${databaseSnapshot?.live.shotsOnGoal.away ?? (idle ? 28 : sim.team.sogCar)} | ${databaseSnapshot?.live.shotsOnGoal.home ?? (idle ? 21 : sim.team.sogVgk)}`}
-                  context="CAR | VGK"
-                  onClick={() => openDetail("sog")}
-                />
-                <ConciseStat
-                  label="Player Goals"
-                  value={String(staalGoals)}
-                  context="Jordan Staal"
-                  onClick={() => { setAiExpanded(false); setPage("Player Insights"); }}
-                />
-              </>
-            )}
+            {(aiExpanded ? railItems.filter(item => item.id === "ai") : railItems).map(renderDashboardWidget)}
+            {!aiExpanded && placementFor("rail")}
           </aside>
         </div>
+        {!widgetEditMode && <span className="hd-widget-longpress-hint">Long-press free space to customize widgets</span>}
+        {widgetCatalogOpen && <WidgetCatalog layout={dashboardLayout} onClose={() => setWidgetCatalogOpen(false)} onChoose={chooseDashboardWidget} />}
       </main>
     );
   };

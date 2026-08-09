@@ -1,4 +1,4 @@
-# PostgreSQL backend setup — NHL Coaching Insights v0.3
+# PostgreSQL backend setup — NHL Coaching Insights v0.4
 
 The demonstration remains fully usable without PostgreSQL. When the database is connected, the frontend can replace its bundled Game 4 fallback with timestamped events, shifts, player totals, coaching insights, videos, and per-user widget preferences from the API.
 

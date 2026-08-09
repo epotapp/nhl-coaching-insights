@@ -1,0 +1,7 @@
+{
+  "version": "0.4.0",
+  "beforeSha256": "bcea24a50cfa13bda65d03d099e80e5d9fce29ef3f593572774baa2144c8b4cd",
+  "afterSha256": "bcea24a50cfa13bda65d03d099e80e5d9fce29ef3f593572774baa2144c8b4cd",
+  "deterministic": true,
+  "generatorOutput": "Wrote /mnt/data/nhl-dashboard-v0.4-work/nhl-dashboard-v0.4/lib/db/seeds/game4-2025030414.sql (51,720 bytes, 57 events, 151 shifts)"
+}

@@ -42,3 +42,23 @@
 /* v0.2 static approved interaction */
 .stats-page *, .stats-root * { animation: none !important; transition: none !important; }
 .hd-panel { box-shadow: none !important; }
+
+/* v0.4 — approved reports rail: neutral selected state, no broken blue strip */
+.st-rail { gap: 22px; }
+.st-rail h3 { margin-bottom: 10px; font-size: 17px; font-weight: 650; }
+.st-report-list { border-radius: 14px; background: var(--hd-card-compact) !important; }
+.st-report-list button {
+  min-height: 42px; padding: 0 14px !important; text-align: left !important;
+  color: var(--hd-text) !important; background: transparent !important;
+  border: 0 !important; border-bottom: 1px solid var(--hd-divider) !important;
+  font-size: 12px; font-weight: 500; box-shadow:none !important;
+}
+.st-report-list button:last-child { border-bottom:0 !important; }
+.st-report-list button.active {
+  background: var(--hd-card-raised) !important; color: var(--hd-text) !important;
+  border-left: 0 !important; text-align:left !important; font-weight:650;
+}
+.hd-root.hd-theme-dark .st-report-list button.active { background:#ffffff !important; color:#02060f !important; }
+.hd-root.hd-theme-light .st-report-list button.active { background:#02060f !important; color:#ffffff !important; }
+.st-select { background:var(--hd-card) !important; color:var(--hd-text) !important; border:0 !important; }
+.st-game-facts { background:var(--hd-card-compact) !important; color:var(--hd-text); }

@@ -3,7 +3,7 @@ import { HdIcon } from "../HdIcon";
 import { imageBase, videoBase } from "../assets";
 import type { PageProps } from "../shared";
 import { PagePanel } from "../shared";
-import { CAR_FACEOFFS, CAR_PLAYERS, GAME4_TEAM_TOTALS, VGK_FACEOFFS } from "../game4Data";
+import { CAR_FACEOFFS, CAR_PLAYERS, playerHeadshot, GAME4_TEAM_TOTALS, VGK_FACEOFFS } from "../game4Data";
 import "./featured.css";
 
 
@@ -140,7 +140,7 @@ function LineupAnalyzer({ full = false }: { full?: boolean }) {
       <div className="fi-lineup-players">
         {players.map(player => (
           <div key={player.num}>
-            <img src={`${imageBase}face${player.face}.png`} alt={player.name} />
+            <img src={playerHeadshot(player)} alt={player.name} />
             <span><strong>#{player.num} {player.short}</strong><small>{player.pos} · {Math.floor(player.toi / 60)}:{String(player.toi % 60).padStart(2, "0")}</small></span>
           </div>
         ))}
