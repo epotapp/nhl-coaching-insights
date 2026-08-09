@@ -1,10 +1,9 @@
 /* Notes — editor + note library. Faithful recreation of the approved design. */
 import { useMemo, useRef, useState } from "react";
 import {
-  Bold, Italic, Underline, List, ListOrdered, CheckSquare,
-  Paperclip, ChevronDown, Pin, SquarePen, PanelLeft,
-  Library, X, Folder, Trash2, FolderPlus, Circle,
+  Bold, Italic, Underline, List, ListOrdered, CheckSquare, ChevronDown,
 } from "lucide-react";
+import { HdIcon } from "../HdIcon";
 import { PageProps, Flash } from "../shared";
 import "./notes.css";
 
@@ -171,7 +170,7 @@ function NoteRow({
       className={`nt-row${active ? " nt-row-active" : ""}`}
       onClick={onSelect}
     >
-      {note.pinned && <span className="nt-row-pin"><Pin size={12} fill="currentColor"/></span>}
+      {note.pinned && <span className="nt-row-pin"><HdIcon name="pin" size={12} /></span>}
       <div className="nt-row-title">{note.title || "Untitled Note"}</div>
       <div className="nt-row-snippet">{note.snippet || "No additional text"}</div>
       <div className="nt-row-time"><Flash value={relTime(note)}/></div>
@@ -228,7 +227,7 @@ function EditorToolbar({
       <button className="nt-tool" aria-label="Numbered list"><ListOrdered size={15}/></button>
       <button className="nt-tool" aria-label="Checklist"><CheckSquare size={15}/></button>
       <span className="nt-tool-sep"/>
-      <button className="nt-tool" aria-label="Attach"><Paperclip size={15}/></button>
+      <button className="nt-tool" aria-label="Attach"><HdIcon name="paperclip" size={15} /></button>
     </div>
   );
 }
@@ -321,7 +320,7 @@ export function NotesPage(_: PageProps) {
                 className={`nt-rail-item${libFilter === f ? " nt-rail-active" : ""}`}
                 onClick={() => setLibFilter(f)}
               >
-                <Folder size={15}/> {f}
+                <HdIcon name="folder" size={15} /> {f}
               </button>
             ))}
 
@@ -330,12 +329,12 @@ export function NotesPage(_: PageProps) {
               onClick={() => setLibFilter("Recently Deleted")}
               style={{ marginTop: 8 }}
             >
-              <Trash2 size={15}/> Recently Deleted
+              <HdIcon name="trash" size={15} /> Recently Deleted
             </button>
           </div>
 
           <button className="nt-rail-newnote" onClick={newNote}>
-            <FolderPlus size={16}/> New Note
+            <HdIcon name="new-folder" size={16} /> New Note
           </button>
         </section>
 
@@ -343,12 +342,12 @@ export function NotesPage(_: PageProps) {
         <section className="hd-panel nt-libmain">
           <div className="nt-libmain-head">
             <span className="hd-panel-title">
-              <Library size={15}/>
+              <HdIcon name="folder" size={15} />
               <span className="nt-libmain-title">Notes Library</span>
               <span className="nt-libmain-count">{libFilter} · {libNotes.length}</span>
             </span>
             <button className="hd-ibtn" aria-label="Back to editor" onClick={() => setView("editor")}>
-              <X size={16}/>
+              <HdIcon name="close" size={16} />
             </button>
           </div>
           <div className="nt-libgrid">
@@ -361,7 +360,7 @@ export function NotesPage(_: PageProps) {
                 className={`nt-card${n.deleted ? " nt-card-ghost" : ""}`}
                 onClick={() => { if (!n.deleted) selectNote(n.id); }}
               >
-                {n.pinned && <span className="nt-card-pin"><Pin size={12} fill="currentColor"/></span>}
+                {n.pinned && <span className="nt-card-pin"><HdIcon name="pin" size={12} /></span>}
                 <div className="nt-card-title">{n.title || "Untitled Note"}</div>
                 <div className="nt-card-snippet">{n.snippet || "No additional text"}</div>
                 <div className="nt-card-foot">
@@ -397,17 +396,17 @@ export function NotesPage(_: PageProps) {
               onClick={togglePin}
               aria-label={active?.pinned ? "Unpin note" : "Pin note"}
             >
-              <Pin size={16} fill={active?.pinned ? "currentColor" : "none"}/>
+              <HdIcon name={active?.pinned ? "bookmark-circle" : "bookmark"} size={16} />
             </button>
-            <button className="nt-tool" aria-label="Note options"><Circle size={16}/></button>
-            <button className="nt-tool" onClick={newNote} aria-label="New note"><SquarePen size={16}/></button>
+            <button className="nt-tool" aria-label="Note options"><HdIcon name="info" size={16} /></button>
+            <button className="nt-tool" onClick={newNote} aria-label="New note"><HdIcon name="new-note" size={16} /></button>
           </div>
         </div>
 
         <div className="nt-meta">
           <span>{active ? relTime(active) : ""}</span>
           {active?.folder && <><span className="nt-meta-dot">·</span><span className="nt-meta-folder">{active.folder}</span></>}
-          {active?.pinned && <><span className="nt-meta-dot">·</span><span className="nt-meta-pinned"><Pin size={10} fill="currentColor"/> Pinned</span></>}
+          {active?.pinned && <><span className="nt-meta-dot">·</span><span className="nt-meta-pinned"><HdIcon name="pin" size={10} /> Pinned</span></>}
         </div>
 
         <EditorToolbar
@@ -431,7 +430,7 @@ export function NotesPage(_: PageProps) {
       <div className="nt-listcol">
         <div className="nt-listcol-top">
           <button className="nt-lib-btn" onClick={() => setView("library")}>
-            <Library size={15}/> View Library
+            <HdIcon name="folder" size={15} /> View Library
           </button>
         </div>
         <div className="nt-list">
@@ -453,10 +452,10 @@ export function NotesSidePanel({
     <aside className="hd-sidepanel">
       <div className="hd-sidepanel-head">
         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <PanelLeft size={16}/> Notes
+          <HdIcon name="sidebar" size={17} /> Notes
         </span>
         <button className="hd-ibtn" aria-label="Close notes" onClick={onClose}>
-          <X size={16}/>
+          <HdIcon name="close" size={16} />
         </button>
       </div>
       <div className="hd-sidepanel-body">
@@ -464,7 +463,7 @@ export function NotesSidePanel({
       </div>
       <div className="nt-side-foot">
         <button className="nt-side-newbtn" onClick={onOpenNotes}>
-          <SquarePen size={15}/> Open Notes
+          <HdIcon name="new-note" size={15} /> Open Notes
         </button>
       </div>
     </aside>

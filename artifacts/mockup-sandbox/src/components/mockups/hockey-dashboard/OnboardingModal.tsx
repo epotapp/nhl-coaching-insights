@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { CircleUserRound, ChevronDown, Check, ChevronLeft } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { HdIcon } from "./HdIcon";
 import "./auth-onboarding.css";
 
 export type ObStep = "ob1" | "ob2" | "ob3" | "ob4" | "ob5";
@@ -61,7 +62,7 @@ function CustomSelect({ value, onChange, options, placeholder = "Select…" }: C
               onMouseDown={e => { e.preventDefault(); onChange(opt); setOpen(false); }}
             >
               <span>{opt}</span>
-              {value === opt && <Check size={12} className="hd-ob-dd-check" />}
+              {value === opt && <HdIcon name="check" size={12} className="hd-ob-dd-check" />}
             </div>
           ))}
         </div>
@@ -274,10 +275,6 @@ function Step2({ onNext, onStatsChange }: {
 }) {
   const [selected, setSelected] = useState<string[]>(["sh", "fo", "sog"]);
 
-  useEffect(() => {
-    onStatsChange?.(["SH%", "FO%", "SOG"]);
-  }, [onStatsChange]);
-
   const toggle = (id: string) => {
     const next = selected.includes(id)
       ? selected.filter(s => s !== id)
@@ -305,7 +302,7 @@ function Step2({ onNext, onStatsChange }: {
               {sel && <span className="hd-ob-sc-rank">{rank}</span>}
               <div className="hd-ob-sc-top">
                 {!sel
-                  ? <CircleUserRound size={12} style={{ opacity: 0.4, flexShrink: 0 }} />
+                  ? <HdIcon name="profile" size={12} className="hd-ob-stat-profile" />
                   : null}
                 <span className="hd-ob-sc-abbr">{s.abbr}</span>
               </div>
@@ -508,7 +505,7 @@ export function OnboardingModal({
         <div className="hd-ob-header">
           {onBack ? (
             <button className="hd-ob-back" onClick={onBack} aria-label="Go back">
-              <ChevronLeft size={14} strokeWidth={2.5} />
+              <HdIcon name="back" size={12} />
               Back
             </button>
           ) : (

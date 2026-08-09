@@ -1,6 +1,7 @@
 import { PageProps } from "../shared";
+import { imageBase } from "../assets";
 
-const img = "/__mockup/images/hockey-dashboard/";
+const img = imageBase;
 
 export interface WidgetProps extends PageProps {
   variant?: "card" | "section" | "full";

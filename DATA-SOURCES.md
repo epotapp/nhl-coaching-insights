@@ -1,6 +1,6 @@
 # Game 4 data provenance
 
-Version 0.1 uses Carolina Hurricanes at Vegas Golden Knights, Stanley Cup Final Game 4, June 9, 2026 (NHL game 2025030414), final score Carolina 5–3 Vegas.
+Version 0.2 uses Carolina Hurricanes at Vegas Golden Knights, Stanley Cup Final Game 4, June 9, 2026 (NHL game 2025030414), final score Carolina 5–3 Vegas.
 
 Primary official NHL reports:
 

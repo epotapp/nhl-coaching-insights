@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./auth-onboarding.css";
+import { imageBase } from "./assets";
 
 /* ── Proper 21×21 QR code (Version 1 structure) ── */
 function QRCode() {
@@ -34,7 +35,7 @@ function QRCode() {
 function NHLLogo() {
   return (
     <img
-      src="/__mockup/images/hockey-dashboard/nhl-logo.png"
+      src={`${imageBase}nhl-logo.png`}
       alt="NHL"
       className="hd-nhl-logo"
       style={{ width: 92, height: 92, objectFit: "contain", marginLeft: -10 }}

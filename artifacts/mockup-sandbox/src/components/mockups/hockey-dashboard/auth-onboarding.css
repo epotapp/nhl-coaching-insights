@@ -9,7 +9,7 @@
   height: 100vh;
   background: #000000;
   display: flex;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   color: #ffffff;
   overflow: hidden;
 }
@@ -236,7 +236,7 @@
   scrollbar-color: rgba(255,255,255,0.16) transparent;
   position: relative;
   animation: hd-ob-slidein 0.22s ease both;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   color: #ffffff;
 }
 
@@ -956,7 +956,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   v0.1 onboarding — iPad 11 landscape fit and approved selection
+   v0.2 onboarding — iPad 11 landscape fit and approved selection
    ═══════════════════════════════════════════════════════════════ */
 .hd-ob-overlay {
   padding: 56px 40px 40px !important;
@@ -1103,4 +1103,103 @@
   .hd-ob-sc { border-radius: 16px !important; padding: 8px !important; }
   .hd-root .hd-ob-sc.hd-ob-sc-sel { padding: 4px !important; }
   .hd-ob-continue { height: 44px !important; min-height: 44px !important; }
+}
+
+/* v0.2 density preview — exact dashboard composition, never an empty mock frame */
+.hd-density-topbar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+.hd-density-pill,
+.hd-density-search {
+  display: block !important;
+  height: 8px !important;
+  border-radius: 4px !important;
+  background: #1c212c !important;
+}
+.hd-density-pill { width: 36px !important; }
+.hd-density-pill-left { width: 64px !important; }
+.hd-density-search { width: 92px !important; margin-left: auto !important; }
+.hd-density-score {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  color: #fff !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif !important;
+  font-size: 12px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+.hd-density-score span {
+  display: block !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background: #b99846 !important;
+}
+.hd-density-score span:last-child { background: #c8102e !important; }
+.hd-density-layout {
+  display: flex !important;
+  min-width: 0 !important;
+}
+.hd-density-main {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.hd-density-toi,
+.hd-density-lower,
+.hd-density-rail { min-height: 0 !important; }
+.hd-density-toi i {
+  display: block !important;
+  position: relative !important;
+}
+.hd-density-toi i::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 16% !important;
+  width: 12px !important;
+  height: 12px !important;
+  transform: translateX(-50%) !important;
+  border-radius: 50% !important;
+  background: #8f96a3 !important;
+}
+.hd-density-toi i::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 16% !important;
+  right: 16% !important;
+  bottom: 13% !important;
+  height: 3px !important;
+  border-radius: 99px !important;
+  background: #4186ff !important;
+}
+.hd-density-lower div:first-child::after,
+.hd-density-lower div:last-child::after,
+.hd-density-ai::after {
+  content: "" !important;
+  display: block !important;
+  width: 54% !important;
+  height: 4px !important;
+  margin: 28px auto 0 !important;
+  border-radius: 99px !important;
+  background: #303744 !important;
+}
+.hd-density-lower div:last-child::after { width: 68% !important; background: #4186ff !important; }
+.hd-density-ai::after { width: 42% !important; margin-top: 18px !important; }
+.hd-density-rail > div:not(.hd-density-ai) {
+  position: relative !important;
+}
+.hd-density-rail > div:not(.hd-density-ai)::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 6px !important;
+  top: 5px !important;
+  bottom: 5px !important;
+  width: 2px !important;
+  border-radius: 99px !important;
+  background: #2155fc !important;
 }

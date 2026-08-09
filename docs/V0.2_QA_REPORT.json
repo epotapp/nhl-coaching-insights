@@ -1,0 +1,516 @@
+{
+  "passed": 102,
+  "failed": 0,
+  "results": [
+    {
+      "name": "dashboard six TOI players",
+      "ok": true,
+      "detail": "6"
+    },
+    {
+      "name": "dashboard concise rail widgets",
+      "ok": true,
+      "detail": "3"
+    },
+    {
+      "name": "dashboard other insight widgets",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "name": "dashboard no placeholders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dashboard dark horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "demo controls visible",
+      "ok": true,
+      "detail": "['Dashboard', '', 'Restart', 'skip 30 sec', 'skip 5 min', 'Pause']"
+    },
+    {
+      "name": "skip 30 sec updates clock",
+      "ok": true,
+      "detail": "19:30"
+    },
+    {
+      "name": "skip 5 min updates clock",
+      "ok": true,
+      "detail": "14:30"
+    },
+    {
+      "name": "AI expanded panel present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "AI related stat miniatures",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "AI related video miniatures",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "AI expanded fits iPad viewport",
+      "ok": true,
+      "detail": "{\"x\": 39.984375, \"y\": 66, \"w\": 1114.03125, \"h\": 728.015625, \"right\": 1154.015625, \"bottom\": 794.015625, \"sw\": 1114, \"cw\": 1114, \"sh\": 728, \"ch\": 728}"
+    },
+    {
+      "name": "AI miniatures visible in viewport",
+      "ok": true,
+      "detail": "[{\"top\": 667.5, \"bottom\": 717.5, \"left\": 474.0625, \"right\": 804.53125}, {\"top\": 667.5, \"bottom\": 717.5, \"left\": 811.53125, \"right\": 1142}, {\"top\": 724.5, \"bottom\": 774.5, \"left\": 474.0625, \"right\": 804.53125}, {\"top\": 724.5, \"bottom\": 774.5, \"left\": 811.53125, \"right\": 1142}]"
+    },
+    {
+      "name": "AI related stat-1 full view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "AI related stat-2 full view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "AI related video-1 full view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "AI related video-2 full view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dashboard page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light theme page color",
+      "ok": true,
+      "detail": "{\"bg\": \"rgb(233, 239, 246)\", \"text\": \"rgb(2, 6, 15)\", \"card\": \"rgb(249, 251, 253)\"}"
+    },
+    {
+      "name": "light theme text color",
+      "ok": true,
+      "detail": "{\"bg\": \"rgb(233, 239, 246)\", \"text\": \"rgb(2, 6, 15)\", \"card\": \"rgb(249, 251, 253)\"}"
+    },
+    {
+      "name": "dashboard light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "dashboard light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Player Insights seven widgets",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "name": "Player default rows fill width",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Player default horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "Player widgets contain data",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "zero-faceoff widget has role context",
+      "ok": true,
+      "detail": "Faceoff Win Rate | J. Blake\n0\nNo Game 4 faceoffs taken\nRole\nWing\nTeam FO%\n57%\nTeam record\n29\u201322\n\nUse this space for wing-support and post-draw possession data when supplied by Post"
+    },
+    {
+      "name": "expanded Shooting by Sector fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "expanded Game TOI fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "expanded Shots on Goal fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "expanded Faceoff Win Rate fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "expanded Game Points fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "expanded Game 4 Player Impact fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "expanded Game Event Timeline fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "Player four visible after toggles",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "Player four-widget repack rows fill width",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Player one visible widget",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Player single-widget repack rows fill width",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "single player widget fills width",
+      "ok": true,
+      "detail": "1114.03125 vs 1114.03125"
+    },
+    {
+      "name": "Player prevents hiding final widget",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Player page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Player light rows fill width",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Player light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "Player light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Featured seven unique widgets",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "name": "Featured no placeholder text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Featured default horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "Featured first expansion exists",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Featured same widget retains one expansion control",
+      "ok": true,
+      "detail": "['Expand to full screen Head to Head Faceoffs']"
+    },
+    {
+      "name": "Featured detailed H2H view",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Featured page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Featured light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "Featured light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Stats widgets populated",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Stats default horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "Stats expand control Cumulative Points",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Stats Cumulative Points expanded",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "Stats Cumulative Points expanded full width",
+      "ok": true,
+      "detail": "[{\"cl\": \"hd-panel hd-pp st-widget st-widget-wide\", \"x\": 39.984375, \"right\": 816.390625, \"w\": 776.40625, \"title\": \"Cumulative Points | 2026 Playoffs\"}, {\"cl\": \"hd-panel hd-pp st-widget st-widget-wide\", \"x\": 39.984375, \"right\": 816.390625, \"w\": 776.40625, \"title\": \"FO Win Rate | Game 4\"}]"
+    },
+    {
+      "name": "Stats expand control Season Trends",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Stats Season Trends expanded",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "Stats Season Trends expanded full width",
+      "ok": true,
+      "detail": "[{\"cl\": \"hd-panel hd-pp st-widget st-widget-wide\", \"x\": 39.984375, \"right\": 816.390625, \"w\": 776.40625, \"title\": \"Season Trends | Faceoffs and shots\"}, {\"cl\": \"hd-panel hd-pp st-widget st-widget-wide\", \"x\": 39.984375, \"right\": 816.390625, \"w\": 776.40625, \"title\": \"Key Insights | Carolina\"}]"
+    },
+    {
+      "name": "Stats page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "video dark horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "video dark no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "video dark page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "video light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "video light no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "video light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "notes dark horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "notes dark no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "notes dark page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "notes light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "notes light no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "notes light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "calendar dark horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "calendar dark no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "calendar dark page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "calendar light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "calendar light no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "calendar light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "preferences dark horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "preferences dark no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "preferences dark page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "preferences light horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "preferences light no placeholder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "preferences light page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "onboarding2 Continue exists",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "onboarding2 Continue visible without scroll",
+      "ok": true,
+      "detail": "{\"x\": 107, \"y\": 705, \"width\": 980, \"height\": 48}"
+    },
+    {
+      "name": "onboarding selected stats exist",
+      "ok": true,
+      "detail": "3"
+    },
+    {
+      "name": "onboarding white 4px selection stroke",
+      "ok": true,
+      "detail": "[{\"bw\": \"4px\", \"bc\": \"rgb(255, 255, 255)\", \"bs\": \"solid\"}, {\"bw\": \"4px\", \"bc\": \"rgb(255, 255, 255)\", \"bs\": \"solid\"}, {\"bw\": \"4px\", \"bc\": \"rgb(255, 255, 255)\", \"bs\": \"solid\"}]"
+    },
+    {
+      "name": "onboarding2 horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "onboarding2 page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "onboarding4 Continue exists",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "onboarding4 Continue visible without scroll",
+      "ok": true,
+      "detail": "{\"x\": 287, \"y\": 639.734375, \"width\": 620, \"height\": 48}"
+    },
+    {
+      "name": "onboarding4 horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1194, \"deCW\": 1194, \"bodySW\": 1194, \"bodyCW\": 1194, \"wrap\": {\"sw\": 1114, \"cw\": 1114}}"
+    },
+    {
+      "name": "onboarding4 page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dashboard 1024x768 horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1024, \"deCW\": 1024, \"bodySW\": 1024, \"bodyCW\": 1024, \"wrap\": {\"sw\": 955, \"cw\": 955}}"
+    },
+    {
+      "name": "dashboard 1024x768 page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "players 1024x768 horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1024, \"deCW\": 1024, \"bodySW\": 1024, \"bodyCW\": 1024, \"wrap\": {\"sw\": 955, \"cw\": 955}}"
+    },
+    {
+      "name": "players 1024x768 page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "featured 1024x768 horizontal overflow",
+      "ok": true,
+      "detail": "{\"deSW\": 1024, \"deCW\": 1024, \"bodySW\": 1024, \"bodyCW\": 1024, \"wrap\": {\"sw\": 955, \"cw\": 955}}"
+    },
+    {
+      "name": "featured 1024x768 page errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,15 +1,8 @@
 /* Preferences — functional recreation of the approved design */
 import { useState } from "react";
-import {
-  Sparkles,
-  MessageSquare,
-  Lightbulb,
-  Star,
-  ChevronDown,
-  ChevronUp,
-  Maximize2,
-} from "lucide-react";
+import { Star, ChevronDown, ChevronUp } from "lucide-react";
 import { PageProps, Flash } from "../shared";
+import { HdIcon } from "../HdIcon";
 import "./preferences.css";
 
 export interface PreferencesProps extends PageProps {
@@ -294,15 +287,20 @@ export function PreferencesPage({
         <div className="pf-preview-block">
           <div className="pf-preview-grid">
             <div className="pf-preview-card pf-preview-card-lg">
-              <span className="pf-preview-ghost">Graph/Info Goes Here</span>
+              <div className="pf-preview-widget-head"><strong>Game Flow</strong><span>CAR 5–3 VGK</span></div>
+              <div className="pf-preview-chart" aria-label="Game 4 score progression preview">
+                <i style={{ height: "22%" }} /><i style={{ height: "38%" }} /><i style={{ height: "54%" }} />
+                <i style={{ height: "54%" }} /><i style={{ height: "72%" }} /><i style={{ height: "100%" }} />
+              </div>
+              <div className="pf-preview-chart-axis"><span>P1</span><span>P2</span><span>P3</span></div>
               <button className="pf-preview-exp" aria-label="Expand preview">
-                <Maximize2 size={11} />
+                <HdIcon name="expand" size={12} />
               </button>
             </div>
             <div className="pf-preview-card">
-              <span className="pf-preview-ghost">Graph/Info Goes Here</span>
+              <div className="pf-preview-metric"><strong><Flash value={preview.fo} />%</strong><span>Faceoff win rate</span><small>29–22 · +7 draws</small></div>
               <div className="pf-preview-stat">
-                <span className="pf-preview-tag">Title | Subtitle Context</span>
+                <span className="pf-preview-tag">CAR · Game 4</span>
               </div>
             </div>
           </div>
@@ -310,7 +308,7 @@ export function PreferencesPage({
             <span className="pf-preview-label">Live Preview</span>
             <div className="pf-preview-mini">
               <span className="pf-preview-mini-tag">
-                Stat Context <Flash value={preview.sog} />
+                SOG <Flash value={preview.sog} /> · TOI <Flash value={preview.toi.toFixed(1)} />
               </span>
             </div>
           </div>
@@ -385,7 +383,7 @@ export function PreferencesPage({
 
           <div className="pf-ai-row">
             <div className="pf-ai-icon">
-              <Sparkles size={16} />
+              <HdIcon name="sparkle" size={17} />
             </div>
             <div className="pf-ai-text">
               <div className="pf-ai-title">AI Prioritization</div>
@@ -399,7 +397,7 @@ export function PreferencesPage({
 
           <div className="pf-ai-row">
             <div className="pf-ai-icon">
-              <MessageSquare size={16} />
+              <HdIcon name="notes" size={17} />
             </div>
             <div className="pf-ai-text">
               <div className="pf-ai-title">AI Chat and Search</div>
@@ -410,7 +408,7 @@ export function PreferencesPage({
 
           <div className="pf-ai-row">
             <div className="pf-ai-icon">
-              <Lightbulb size={16} />
+              <HdIcon name="info" size={17} />
             </div>
             <div className="pf-ai-text">
               <div className="pf-ai-title">AI Suggestions</div>

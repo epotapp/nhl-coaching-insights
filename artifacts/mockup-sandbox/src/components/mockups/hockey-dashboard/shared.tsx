@@ -1,5 +1,6 @@
 /* ── shared primitives for all hockey-dashboard pages ────────── */
 import { ReactNode } from "react";
+import { HdIcon } from "./HdIcon";
 
 /* every page of the app (opened from the nav menu) */
 export type AppPage =
@@ -62,6 +63,7 @@ export function PagePanel({
   headExtra?: ReactNode;
   children?: ReactNode;
 }) {
+  const resolvedExpandLabel = collapse && expandLabel === "Expand" ? "Collapse" : expandLabel;
   return (
     <section className={`hd-panel hd-pp ${className}`}>
       <div className="hd-panel-head">
@@ -75,16 +77,8 @@ export function PagePanel({
         <span className="hd-pp-head-right">
           {headExtra}
           {onExpand && (
-            <button className="hd-ibtn" aria-label={`${expandLabel} ${title}`} onClick={onExpand}>
-              {collapse ? (
-                <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M5.5 2v3.5H2M9.5 2v3.5H13M13 9.5H9.5V13M2 9.5h3.5V13"/>
-                </svg>
-              ) : (
-                <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M2 5.5V2h3.5M10 2h3v3.5M13 10v3h-3.5M5.5 13H2v-3"/>
-                </svg>
-              )}
+            <button className="hd-ibtn" aria-label={`${resolvedExpandLabel} ${title}`} onClick={onExpand}>
+              <HdIcon name={collapse ? "minimize" : "expand"} size={16} />
             </button>
           )}
         </span>

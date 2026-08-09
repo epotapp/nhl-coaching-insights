@@ -1,11 +1,11 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { Activity, BarChart3, FileBarChart, LineChart, ListFilter, Target } from "lucide-react";
+import { HdIcon } from "../HdIcon";
+import { imageBase } from "../assets";
 import type { PageProps } from "../shared";
 import { PagePanel } from "../shared";
 import { CAR_PLAYERS, GAME4_TEAM_TOTALS } from "../game4Data";
 import "./stats.css";
 
-const imageBase = "/__mockup/images/hockey-dashboard/";
 type WidgetKey = "trends" | "fo" | "cum" | "keys" | "trends2";
 
 interface StatWidget {
@@ -47,7 +47,7 @@ function ReportRail() {
       </section>
       <section>
         <h3>Report Category</h3>
-        <button type="button" className="st-select"><span>All Categories</span><ListFilter size={14} /></button>
+        <button type="button" className="st-select"><span>All Categories</span><HdIcon name="select" size={15} /></button>
         <div className="st-report-list">
           {categories.map((label, index) => <button type="button" key={label} className={index === 0 ? "active" : ""}>{label}</button>)}
         </div>
@@ -88,14 +88,14 @@ function FaceoffSummary() {
   );
 }
 
-export function StatsPage(_: PageProps) {
+export function StatsPage({ theme }: PageProps) {
   const [expanded, setExpanded] = useState<WidgetKey | null>(null);
   const widgets = useMemo<StatWidget[]>(() => [
-    { key: "trends", title: "Team Game Flow", subtitle: "Game 4", icon: <LineChart size={16} />, image: "game-flow.png", footer: "CAR closed with a 28–21 shot advantage", lead: "28–21" },
-    { key: "fo", title: "FO Win Rate", subtitle: "Game 4", icon: <BarChart3 size={16} />, image: "faceoff-centers.png", footer: "Jordan Staal won 12 of 16 draws", lead: "57%" },
-    { key: "cum", title: "Cumulative Points", subtitle: "2026 Playoffs", icon: <FileBarChart size={16} />, image: "cumulative-points.png", footer: "Ehlers added three points in Game 4", lead: "16 pts" },
-    { key: "keys", title: "Key Insights", subtitle: "Carolina", icon: <Activity size={16} />, image: "player-impact.png", footer: "Staal and Ehlers led the decisive events", lead: "5 goals" },
-    { key: "trends2", title: "Season Trends", subtitle: "Faceoffs and shots", icon: <Target size={16} />, image: "season-trends.png", footer: "Game 4 ended at 57% on draws", lead: "57%" },
+    { key: "trends", title: "Team Game Flow", subtitle: "Game 4", icon: <HdIcon name="chart" size={17} />, image: "game-flow.png", footer: "CAR closed with a 28–21 shot advantage", lead: "28–21" },
+    { key: "fo", title: "FO Win Rate", subtitle: "Game 4", icon: <HdIcon name="head-to-head-faceoffs" size={18} />, image: "faceoff-centers.png", footer: "Jordan Staal won 12 of 16 draws", lead: "57%" },
+    { key: "cum", title: "Cumulative Points", subtitle: "2026 Playoffs", icon: <HdIcon name="game-pulse" size={17} />, image: "cumulative-points.png", footer: "Ehlers added three points in Game 4", lead: "16 pts" },
+    { key: "keys", title: "Key Insights", subtitle: "Carolina", icon: <HdIcon name="sparkle" size={17} />, image: "player-impact.png", footer: "Staal and Ehlers led the decisive events", lead: "5 goals" },
+    { key: "trends2", title: "Season Trends", subtitle: "Faceoffs and shots", icon: <HdIcon name="shooting-sector" size={18} />, image: "season-trends.png", footer: "Game 4 ended at 57% on draws", lead: "57%" },
   ], []);
 
   const selected = expanded ? widgets.find(widget => widget.key === expanded) ?? null : null;
@@ -114,7 +114,7 @@ export function StatsPage(_: PageProps) {
     >
       {widget.key === "keys" ? <KeyInsights /> : widget.key === "fo" && wide ? <FaceoffSummary /> : (
         <div className="st-chart-wrap">
-          <img src={`${imageBase}charts/${widget.image}`} alt={`${widget.title} chart`} />
+          <img src={`${imageBase}charts/${widget.image.replace(".png", `${theme === "light" ? "-light" : ""}.png`)}`} alt={`${widget.title} chart`} data-chart={widget.key} />
           {widget.lead && <strong>{widget.lead}</strong>}
         </div>
       )}

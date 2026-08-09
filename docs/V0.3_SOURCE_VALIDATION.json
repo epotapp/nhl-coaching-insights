@@ -1,0 +1,20 @@
+{
+  "version": "0.3.0",
+  "sourceFiles": 103,
+  "syntaxErrors": [],
+  "relativeImportErrors": [],
+  "cssFiles": 12,
+  "cssErrors": [],
+  "placeholderHits": [],
+  "forbiddenPathHits": [],
+  "suppliedIcons": 49,
+  "declaredIcons": 49,
+  "missingIconFiles": [],
+  "staticIconUses": 102,
+  "invalidIconUses": [],
+  "assets": 130,
+  "videos": 17,
+  "missingRequiredFiles": [],
+  "ok": true,
+  "failures": []
+}
