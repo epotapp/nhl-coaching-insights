@@ -1,15 +1,15 @@
-# Deployment — NHL Coaching Insights v0.3
+# Deployment — NHL Coaching Insights v0.4
 
 The frontend is a static Vite application. It can be deployed to GitHub Pages, IONOS static hosting, Netlify, Cloudflare Pages, or any web server that serves the generated `dist` directory.
 
 ## GitHub Pages — automatic workflow
 
 1. Create a GitHub repository and place the project contents at its root.
-2. Commit and push to `main`, `master`, or the current release branch `nhl-v0.3`.
+2. Commit and push to the `main` or `master` branch.
 3. In GitHub, open **Settings → Pages**.
 4. Set **Source** to **GitHub Actions**.
 5. Open the **Actions** tab and run **Deploy NHL Coaching Insights to GitHub Pages**, or push another commit.
-6. The workflow uses Node.js 24 and pnpm 10.15.0, installs the locked dependencies without lifecycle scripts, derives `/<repository-name>/` as the Vite base path, builds the frontend, uploads `artifacts/mockup-sandbox/dist`, and publishes it.
+6. The workflow installs dependencies, derives `/<repository-name>/` as the Vite base path, builds the frontend, uploads `artifacts/mockup-sandbox/dist`, and publishes it.
 
 Workflow file:
 
@@ -79,5 +79,5 @@ After deployment, verify:
 - Dashboard images, supplied icons, Matplotlib charts, and video clips load.
 - Refreshing the deployed URL does not produce a 404.
 - Dark and light themes use identical geometry.
-- The compact menu shows Version 0.3.0.
+- The compact menu shows Version 0.4.0.
 - The browser console contains no failed asset requests.

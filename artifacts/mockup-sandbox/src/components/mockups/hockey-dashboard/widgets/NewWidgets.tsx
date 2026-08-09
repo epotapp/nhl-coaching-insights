@@ -1,7 +1,12 @@
 import { PageProps } from "../shared";
 import { imageBase } from "../assets";
+import { CAR_PLAYERS, playerHeadshot } from "../game4Data";
 
 const img = imageBase;
+const carHeadshot = (number: number, fallbackFace: number) => {
+  const player = CAR_PLAYERS.find(candidate => candidate.num === number);
+  return player ? playerHeadshot(player) : `${img}face${fallbackFace}.png?v=6`;
+};
 
 export interface WidgetProps extends PageProps {
   variant?: "card" | "section" | "full";
@@ -43,7 +48,7 @@ export function HeadToHeadFaceoffs({ variant = "card" }: WidgetProps) {
         return (
           <div className="fi-h2h-row" key={`${row.carNum}-${row.vgkNum}`}>
             <div className="fi-h2h-side fi-h2h-car">
-              <img src={`${img}face${row.face}.png?v=6`} alt={row.car} className="fi-h2h-face"/>
+              <img src={carHeadshot(row.carNum, row.face)} alt={row.car} className="fi-h2h-face"/>
               <div className="fi-h2h-nm"><span className="fi-h2h-name">{row.car}</span><span className="fi-h2h-num">#{row.carNum}</span></div>
             </div>
             <div className="fi-h2h-mid">
@@ -129,7 +134,7 @@ export function PowerPlayWidget({ variant = "card" }: WidgetProps) {
         <div className="fi-pp-ice">
           {PP1.map((chip, index) => (
             <div className="fi-pp-chip" key={chip.num} style={{ top: `${PP_POS[index].top}%`, left: `${PP_POS[index].left}%` }}>
-              <img src={`${img}face${chip.face}.png?v=6`} alt={chip.name}/><span className="fi-pp-chip-num">{chip.num}</span>{rich && <span className="fi-pp-chip-name">{chip.name}</span>}
+              <img src={carHeadshot(chip.num, chip.face)} alt={chip.name}/><span className="fi-pp-chip-num">{chip.num}</span>{rich && <span className="fi-pp-chip-name">{chip.name}</span>}
             </div>
           ))}
           <div className="fi-pp-net"/>

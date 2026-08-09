@@ -26,6 +26,7 @@ const WIDGET_PAIRS: Partial<Record<WidgetKey, WidgetKey>> = {
 };
 
 function ReportRail() {
+  const interactive = ["Shootout Planner", "Custom Stat Sheet", "Goalie Pull"];
   const reports = [
     "Game Summary",
     "Event Summary",
@@ -37,20 +38,30 @@ function ReportRail() {
     "Shot Report",
   ];
   const categories = ["Skater Stats", "Goalie Stats", "Team Stats", "Special Teams", "Advanced Metrics"];
+  const [selected, setSelected] = useState("Shootout Planner");
+  const reportList = (items: string[]) => (
+    <div className="st-report-list">
+      {items.map(label => (
+        <button type="button" key={label} className={selected === label ? "active" : ""} onClick={() => setSelected(label)}>
+          {label}
+        </button>
+      ))}
+    </div>
+  );
   return (
     <aside className="st-rail">
       <section>
+        <h3>Interactive Reports</h3>
+        {reportList(interactive)}
+      </section>
+      <section>
         <h3>Official Game Reports</h3>
-        <div className="st-report-list">
-          {reports.map((label, index) => <button type="button" key={label} className={index === 0 ? "active" : ""}>{label}</button>)}
-        </div>
+        {reportList(reports)}
       </section>
       <section>
         <h3>Report Category</h3>
         <button type="button" className="st-select"><span>All Categories</span><HdIcon name="select" size={15} /></button>
-        <div className="st-report-list">
-          {categories.map((label, index) => <button type="button" key={label} className={index === 0 ? "active" : ""}>{label}</button>)}
-        </div>
+        {reportList(categories)}
       </section>
       <section className="st-game-facts">
         <h3>Game 4 Summary</h3>

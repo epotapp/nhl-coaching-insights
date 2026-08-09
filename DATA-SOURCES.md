@@ -12,3 +12,7 @@ Primary official NHL reports:
 Exact timestamp-bound data in the demo includes goals, Carolina shots on goal, identified Vegas shots, penalties/strength windows, period clock, score, and exact shift intervals for the six players shown in the primary TOI widget. Official final team totals and player totals are used throughout the static and final-state views.
 
 Where the public reports do not expose a compact timestamp series already used by a widget, interim ancillary counters progress deterministically toward their official final totals. These derived counters do not change the official score, goal timing, shot timing, penalty timing, player totals, or final team totals.
+
+## v0.4 player portrait identity
+
+Carolina player portraits are resolved by official NHL player ID and sweater number rather than by array position. The mapping covers every Carolina player shown in Player Insights and Video, including Nikolaj Ehlers (#27), and is shared by all Dashboard and Featured Insights widgets.

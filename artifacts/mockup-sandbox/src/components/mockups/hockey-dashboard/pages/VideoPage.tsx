@@ -1,9 +1,10 @@
 /* Video — real clip library: Faceoffs · Goals · Shots */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, ChevronLeft, SkipBack, SkipForward } from "lucide-react";
 import { PageProps } from "../shared";
 import { HdIcon } from "../HdIcon";
 import { imageBase, videoBase } from "../assets";
+import { CAR_PLAYERS, playerHeadshot } from "../game4Data";
 import "./video.css";
 
 const media = videoBase;
@@ -255,6 +256,16 @@ type View =
 export function VideoPage({ theme: _theme }: PageProps) {
   const [view, setView] = useState<View>({ kind: "home" });
   const [saved, setSaved] = useState<Set<number>>(new Set([7, 13]));
+  const [selectedPlayerNum, setSelectedPlayerNum] = useState<number | null>(null);
+  const playerClipCounts = useMemo(() => {
+    const counts: Record<number, number> = {};
+    for (const clip of CLIPS) {
+      const match = clip.subject.match(/#(\d+)/);
+      if (match) counts[Number(match[1])] = (counts[Number(match[1])] ?? 0) + 1;
+    }
+    return counts;
+  }, []);
+  const clipMatchesPlayer = (clip: Clip) => selectedPlayerNum === null || clip.subject.includes(`#${selectedPlayerNum} `);
 
   const openPlayer = (clipId: number) =>
     setView((cur) => ({ kind: "player", clipId, from: cur }));
@@ -292,15 +303,16 @@ export function VideoPage({ theme: _theme }: PageProps) {
     );
   }
 
-  const savedClips = CLIPS.filter((c) => saved.has(c.id));
-  const recommended = CLIPS.filter((c) => !saved.has(c.id)).slice(0, 8);
+  const savedClips = CLIPS.filter((c) => saved.has(c.id)).sort((a, b) => Number(clipMatchesPlayer(b)) - Number(clipMatchesPlayer(a)));
+  const recommended = CLIPS.filter((c) => !saved.has(c.id)).sort((a, b) => Number(clipMatchesPlayer(b)) - Number(clipMatchesPlayer(a))).slice(0, 8);
 
   return (
     <div className="vd-root">
       <div>
         {/* Real media grouped into the three supplied sections. */}
         {PLAYLIST_DEFS.map((p) => {
-          const clips = CLIPS.filter((c) => c.playlist === p.name);
+          const clips = CLIPS.filter((c) => c.playlist === p.name)
+            .sort((a, b) => Number(clipMatchesPlayer(b)) - Number(clipMatchesPlayer(a)));
           return (
             <section className="vd-home-section" key={p.name}>
               <div className="vd-sec-head">
@@ -384,6 +396,40 @@ export function VideoPage({ theme: _theme }: PageProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+function VideoPlayerRail({
+  selected,
+  onSelect,
+  clipCounts,
+}: {
+  selected: number | null;
+  onSelect: (value: number | null) => void;
+  clipCounts: Record<number, number>;
+}) {
+  return (
+    <section className="vd-player-filter" aria-label="Filter clips by Carolina player">
+      <div className="vd-player-filter-head">
+        <strong>Players</strong>
+        <span>Swipe horizontally to browse the roster</span>
+      </div>
+      <div className="vd-player-strip">
+        <button type="button" className={`vd-player-card vd-player-card-all${selected === null ? " active" : ""}`} onClick={() => onSelect(null)}>
+          <img src={`${imageBase}canes.png`} alt="Carolina Hurricanes" />
+          <span>All</span>
+          <small>{CLIPS.length} clips</small>
+        </button>
+        {CAR_PLAYERS.map(player => (
+          <button type="button" key={player.num} className={`vd-player-card${selected === player.num ? " active" : ""}`} data-player-number={player.num} onClick={() => onSelect(player.num)}>
+            <span className="vd-player-card-num">#{player.num}</span>
+            <img src={playerHeadshot(player)} alt={player.name} />
+            <span>{player.short}</span>
+            <small>{clipCounts[player.num] ?? 0} tagged</small>
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }
 

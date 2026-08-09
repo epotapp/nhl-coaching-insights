@@ -149,8 +149,9 @@ export interface PlayerGame4 {
 
 /**
  * Official Game 4 Carolina player totals from NHL Event Summary ES030414.
- * The portrait assets are demonstration portraits; all names, numbers and
- * numerical values below are bound to the official report.
+ * Names, sweater numbers and numerical values below are bound to the official
+ * report. Portraits are resolved separately by sweater number through the NHL
+ * roster headshot mapping, preventing reordered lists from mismatching faces.
  */
 export const CAR_PLAYERS: PlayerGame4[] = [
   { name: "Sebastian Aho", short: "S. Aho", num: 20, pos: "C", face: 1, toi: 1094, shifts: 24, sog: 3, goals: 0, assists: 1, pim: 0, foW: 5, foL: 8 },
@@ -173,6 +174,38 @@ export const CAR_PLAYERS: PlayerGame4[] = [
   { name: "Mark Jankowski", short: "M. Jankowski", num: 77, pos: "C", face: 7, toi: 578, shifts: 14, sog: 0, goals: 0, assists: 0, pim: 0, foW: 5, foL: 2 },
   { name: "Brandon Bussi", short: "B. Bussi", num: 32, pos: "G", face: 1, toi: 3600, shifts: 1, sog: 0, goals: 0, assists: 0, pim: 0, saves: 18, shotsAgainst: 21 },
 ];
+
+
+/** Official Carolina player headshots keyed by sweater number.
+ * URLs are returned by the NHL roster API for the 2026-27 Hurricanes roster.
+ * Keeping the mapping by jersey number prevents a portrait from being attached
+ * to the wrong player when lists are sorted or filtered.
+ */
+export const CAR_HEADSHOTS: Readonly<Record<number, string>> = {
+  20: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8478427.png",
+  53: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8482809.png",
+  28: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8477478.png",
+  27: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8477940.png",
+  71: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8475791.png",
+  77: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8476873.png",
+  24: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8482093.png",
+  48: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8476921.png",
+  50: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8480762.png",
+  11: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8473533.png",
+  22: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8482702.png",
+  37: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8480830.png",
+  5: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8478970.png",
+  4: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8476906.png",
+  19: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8480817.png",
+  21: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8482100.png",
+  74: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8476958.png",
+  26: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8480336.png",
+  32: "https://assets.nhle.com/mugs/nhl/20262027/CAR/8483548.png",
+};
+
+export function playerHeadshot(player: Pick<PlayerGame4, "num" | "face">): string {
+  return CAR_HEADSHOTS[player.num] ?? `/images/hockey-dashboard/face${player.face}.png`;
+}
 
 export const CAR_PRIMARY_PLAYER_NUMBERS = [20, 11, 22, 27, 24, 74] as const;
 
