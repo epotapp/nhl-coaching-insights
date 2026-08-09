@@ -151,7 +151,7 @@
 .hd-pp-title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 
-/* v0.1 strict shared chrome */
+/* v0.2 strict shared chrome */
 .hd-pagewrap { padding: 0 !important; scrollbar-color: #303744 transparent; }
 .hd-sidebar { border: 0 !important; box-shadow: none !important; animation: none !important; }
 .hd-sidepanel { border: 0 !important; box-shadow: none !important; }

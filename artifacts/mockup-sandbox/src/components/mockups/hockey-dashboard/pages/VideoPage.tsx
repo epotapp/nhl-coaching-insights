@@ -1,23 +1,13 @@
 /* Video — real clip library: Faceoffs · Goals · Shots */
 import { useEffect, useRef, useState } from "react";
-import {
-  Maximize2,
-  ChevronRight,
-  ChevronLeft,
-  Play,
-  Pause,
-  SkipBack,
-  SkipForward,
-  RotateCcw,
-  RotateCw,
-  Bookmark,
-  Info,
-} from "lucide-react";
+import { ChevronRight, ChevronLeft, SkipBack, SkipForward } from "lucide-react";
 import { PageProps } from "../shared";
+import { HdIcon } from "../HdIcon";
+import { imageBase, videoBase } from "../assets";
 import "./video.css";
 
-const media = "/__mockup/videos/hockey-dashboard/";
-const posters = "/__mockup/images/hockey-dashboard/video-posters/";
+const media = videoBase;
+const posters = `${imageBase}video-posters/`;
 
 type PlaylistName = "Faceoffs" | "Goals" | "Shots";
 
@@ -336,8 +326,8 @@ export function VideoPage({ theme: _theme }: PageProps) {
                     <div className="vd-clip-cap">
                       {c.title} <span>| {c.period}</span>
                     </div>
-                    <span className="vd-clip-expand"><Maximize2 size={16} /></span>
-                    <span className="vd-clip-play"><Play size={18} fill="currentColor" /></span>
+                    <span className="vd-clip-expand"><HdIcon name="expand" size={16} /></span>
+                    <span className="vd-clip-play"><HdIcon name="play" size={18} /></span>
                   </button>
                 ))}
               </div>
@@ -433,7 +423,7 @@ function PlaylistDetail({
           <div className="vd-pl-date">{def.date}</div>
           <div className="vd-pl-desc">{def.desc}</div>
           <button className="vd-pl-playall" onClick={() => clips[0] && onOpenClip(clips[0].id)}>
-            <Play size={16} fill="currentColor" /> Play All
+            <HdIcon name="play" size={16} /> Play All
           </button>
         </div>
       </div>
@@ -524,9 +514,9 @@ function VideoPlayer({
             aria-label="Bookmark"
             onClick={onToggleSaved}
           >
-            <Bookmark size={16} fill={isSaved ? "currentColor" : "none"} />
+            <HdIcon name={isSaved ? "bookmark-circle" : "bookmark"} size={17} />
           </button>
-          <button className="vd-tool-btn" aria-label="Clip information"><Info size={16} /></button>
+          <button className="vd-tool-btn" aria-label="Clip information"><HdIcon name="info" size={17} /></button>
         </div>
       </div>
 
@@ -546,24 +536,24 @@ function VideoPlayer({
           onPause={() => setPlaying(false)}
           onEnded={() => setPlaying(false)}
         />
-        {!playing && <span className="vd-frame-play"><Play size={34} fill="currentColor" /></span>}
+        {!playing && <span className="vd-frame-play"><HdIcon name="play" size={34} /></span>}
       </button>
 
       <div className="vd-transport">
         <button className="vd-t-btn" aria-label="Back 10 seconds" onClick={() => seek(pos - 10)}>
-          <RotateCcw size={26} /><span className="vd-t-ten">10</span>
+          <HdIcon name="back-10" size={27} />
         </button>
         <button className="vd-t-btn" aria-label="Frame back" onClick={() => seek(pos - 0.25)}>
           <SkipBack size={22} fill="currentColor" />
         </button>
         <button className="vd-t-btn" aria-label={playing ? "Pause" : "Play"} onClick={togglePlay}>
-          {playing ? <Pause size={26} fill="currentColor" /> : <Play size={26} fill="currentColor" />}
+          {playing ? <HdIcon name="pause" size={26} /> : <HdIcon name="play" size={26} />}
         </button>
         <button className="vd-t-btn" aria-label="Frame forward" onClick={() => seek(pos + 0.25)}>
           <SkipForward size={22} fill="currentColor" />
         </button>
         <button className="vd-t-btn" aria-label="Forward 10 seconds" onClick={() => seek(pos + 10)}>
-          <RotateCw size={26} /><span className="vd-t-ten">10</span>
+          <HdIcon name="forward-10" size={27} />
         </button>
       </div>
 

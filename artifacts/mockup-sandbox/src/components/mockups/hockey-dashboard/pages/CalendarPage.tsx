@@ -1,10 +1,12 @@
 /* Calendar — fullscreen month board (June 2026 · 2026 Stanley Cup Final) */
 import { useMemo, useState } from "react";
-import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { HdIcon } from "../HdIcon";
+import { imageBase } from "../assets";
 import { PageProps } from "../shared";
 import "./calendar.css";
 
-const img = "/__mockup/images/hockey-dashboard/";
+const img = imageBase;
 
 export interface CalendarPageProps extends PageProps {
   /* onboarding-selected stat priorities (abbrs like "TOI", "FO%") */
@@ -687,10 +689,10 @@ export function CalendarSidePanel({
     <aside className="hd-sidepanel">
       <div className="hd-sidepanel-head">
         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <CalendarDays size={16} /> Calendar
+          <HdIcon name="calendar" size={17} /> Calendar
         </span>
         <button className="hd-ibtn" aria-label="Close" onClick={onClose}>
-          <X size={16} />
+          <HdIcon name="close" size={16} />
         </button>
       </div>
       <div className="hd-sidepanel-body">

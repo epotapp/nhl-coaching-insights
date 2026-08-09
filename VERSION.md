@@ -1,9 +1,14 @@
-# Version 0.1.0
+# NHL Coaching Insights — Version 0.3.0
 
-- iPad 11 landscape onboarding fit with always-visible Continue action.
-- Four-pixel white onboarding selection stroke and populated stat values.
-- Approved dashboard grid, six unique TOI players, concise right rail, and static time counters.
-- Featured Insights composition, two-stage expansion, complete video groups, shooting-sector artwork, lineup analysis, and full head-to-head faceoff comparison.
-- Correct Stats reflow for Cumulative Points and Season Trends expansion.
-- Game 4 data binding and demo time-skip controls.
-- Matplotlib-generated chart assets.
+**Package:** `nhl-dashboard-v0.3`
+
+Version 0.3 applies the supplied Figma icon library across the interface, replaces the oversized navigation treatment with the approved compact menu, aligns the application with the SF Pro 18/20/24 typography hierarchy, makes all bundled assets safe for GitHub Pages base paths, and adds a production static-deployment workflow and SPA fallback.
+
+The v0.2 functionality remains included: dark/light themes, AI Insights expansion, adaptive Player Insights layouts, timestamp-aware demo controls, 17 bundled video clips, and the optional PostgreSQL/Express backend.
+
+See:
+
+- `docs/V0.3_CHANGELOG.md`
+- `docs/DEPLOYMENT.md`
+- `docs/POSTGRESQL_SETUP.md`
+- `DATA-SOURCES.md`

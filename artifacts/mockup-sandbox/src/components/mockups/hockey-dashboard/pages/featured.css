@@ -1,4 +1,4 @@
-/* Featured Insights v0.1 — exact approved composition */
+/* Featured Insights v0.2 — exact approved composition */
 .fi-page {
   width: 100%;
   min-height: 100%;
@@ -124,7 +124,7 @@
 }
 
 
-/* v0.1 supplied sector artwork and static Figma behavior */
+/* v0.2 supplied sector artwork and static Figma behavior */
 .fi-sector > img { filter: none !important; object-fit: contain !important; }
 .fi-default-page *, .fi-expanded-page * { animation: none !important; transition: none !important; }
 .fi-default-page .hd-panel, .fi-expanded-page .hd-panel { border: 0 !important; box-shadow: none !important; }

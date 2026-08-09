@@ -1,0 +1,387 @@
+/* ═══════════════════════════════════════════════════════════════
+   NHL Coaching Insights v0.3 — icon + typography pass
+   Supplied Figma icon geometry · SF Pro system scale · deploy-safe
+   Target: 11-inch iPad landscape and 1366 × 1024 review canvas.
+   ═══════════════════════════════════════════════════════════════ */
+
+.hd-root {
+  --hd-font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --hd-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --hd-caption-size: clamp(12px, 1.02vw, 14px);
+  --hd-body-small-size: clamp(13px, 1.17vw, 16px);
+  --hd-body-size: clamp(15px, 1.32vw, 18px);
+  --hd-header-size: clamp(17px, 1.47vw, 20px);
+  --hd-title-size: clamp(20px, 1.76vw, 24px);
+  --hd-screen-pad: 20px;
+  --hd-page-gap: 20px;
+  padding: 20px var(--hd-screen-pad) var(--hd-screen-pad) !important;
+  gap: 20px !important;
+  font-family: var(--hd-font-sans) !important;
+  font-size: var(--hd-body-small-size) !important;
+  line-height: 1.2;
+  letter-spacing: -0.008em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hd-root,
+.hd-root button,
+.hd-root input,
+.hd-root textarea,
+.hd-root select {
+  font-family: var(--hd-font-sans) !important;
+}
+
+.hd-root h1,
+.hd-root h2,
+.hd-root h3,
+.hd-root h4,
+.hd-root strong,
+.hd-root .hd-page-button,
+.hd-root .hd-panel-title,
+.hd-root .hd-pp-title-text {
+  font-family: var(--hd-font-display) !important;
+}
+
+.hd-root h1 { font-size: var(--hd-title-size); font-weight: 700; letter-spacing: -0.025em; }
+.hd-root h2 { font-size: var(--hd-header-size); font-weight: 600; letter-spacing: -0.018em; }
+.hd-root h3 { font-size: var(--hd-body-size); font-weight: 600; letter-spacing: -0.012em; }
+
+/* Supplied Figma PNGs are used as masks so they inherit the theme color. */
+.hd-figma-icon {
+  --hd-icon-size: 20px;
+  display: inline-block;
+  width: var(--hd-icon-size);
+  height: var(--hd-icon-size);
+  min-width: var(--hd-icon-size);
+  min-height: var(--hd-icon-size);
+  flex: 0 0 var(--hd-icon-size);
+  background-color: currentColor;
+  -webkit-mask-image: var(--hd-icon-image);
+  mask-image: var(--hd-icon-image);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+/* Shell: 20px page margin and the compact approved top bar. */
+.hd-topbar {
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  gap: 20px !important;
+  overflow: visible;
+}
+
+.hd-topbar-left,
+.hd-topbar-right {
+  gap: 10px !important;
+}
+
+.hd-nav-btn,
+.hd-search {
+  height: 48px !important;
+  min-height: 48px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.hd-nav-btn {
+  padding-inline: 14px !important;
+  gap: 9px !important;
+  font-size: var(--hd-body-small-size) !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.012em;
+}
+
+.hd-page-button {
+  font-size: var(--hd-body-size) !important;
+  font-weight: 500 !important;
+}
+
+.hd-page-button .hd-figma-icon { --hd-icon-size: 25px !important; }
+.hd-refresh { width: 48px !important; min-width: 48px !important; padding: 0 !important; }
+.hd-cheat { padding-inline: 12px !important; font-size: var(--hd-caption-size) !important; }
+
+.hd-search {
+  width: clamp(250px, 25vw, 310px) !important;
+  padding-inline: 14px !important;
+  gap: 9px !important;
+}
+
+.hd-search input {
+  font-size: var(--hd-body-small-size) !important;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.hd-search-star { opacity: 1; }
+.hd-topbar .hd-figma-icon { color: currentColor; }
+.hd-pagewrap { padding: 0 !important; }
+
+/* Figma titles: body 18, headers 20, titles 24. */
+.hd-panel-head {
+  min-height: 30px !important;
+  margin-bottom: 12px !important;
+}
+
+.hd-panel-title {
+  gap: 9px !important;
+  font-size: var(--hd-body-size) !important;
+  font-weight: 500 !important;
+  line-height: 1.2;
+}
+
+.hd-panel-title strong { font-weight: 600 !important; }
+.hd-panel-title .hd-figma-icon { --hd-icon-size: 23px !important; }
+.hd-pp-title-text { font-size: var(--hd-body-size) !important; font-weight: 600 !important; }
+.hd-pp-sub { font-size: var(--hd-body-size) !important; font-weight: 300 !important; }
+.hd-ibtn { width: 32px !important; min-width: 32px !important; height: 32px !important; }
+.hd-ibtn .hd-figma-icon { --hd-icon-size: 20px !important; }
+
+/* Strict Figma surfaces. */
+.hd-root .hd-panel,
+.hd-root .hd-pp,
+.hd-root .hd-concise,
+.hd-root .hd-other-row article,
+.hd-root .st-widget,
+.hd-root .fi-page .hd-panel,
+.hd-root .pi-widget,
+.hd-root .vd-list-panel,
+.hd-root .vd-clip-card,
+.hd-root .vd-playlist-row,
+.hd-root .nt-editor,
+.hd-root .nt-card,
+.hd-root .cal-event,
+.hd-root .pf-card,
+.hd-root .pf-summary-card,
+.hd-root .pf-cat {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.hd-root .hd-panel,
+.hd-root .hd-pp { border-radius: 20px !important; padding: 12px !important; }
+
+/* Dashboard hierarchy and legibility. */
+.hd-dashboard { gap: 20px !important; }
+.hd-score-band { min-height: 124px !important; gap: 20px !important; }
+.hd-clock { font-size: clamp(52px, 5.2vw, 68px) !important; font-weight: 700 !important; }
+.hd-clock-block > span { font-size: var(--hd-body-size) !important; }
+.hd-score-center img { width: clamp(46px, 4.2vw, 58px) !important; height: clamp(46px, 4.2vw, 58px) !important; }
+.hd-score-center strong { font-size: clamp(52px, 5.05vw, 66px) !important; }
+.hd-score-center > span { font-size: clamp(30px, 2.8vw, 38px) !important; }
+.hd-strength-block span { font-size: var(--hd-body-size) !important; }
+.hd-strength-block strong { font-size: var(--hd-body-small-size) !important; }
+.hd-strength-block small { font-size: var(--hd-caption-size) !important; }
+.hd-dashboard-grid,
+.hd-dashboard-main,
+.hd-dashboard-rail,
+.hd-lower-grid { gap: 20px !important; }
+.hd-toi-name { font-size: var(--hd-caption-size) !important; }
+.hd-toi-time { font-size: var(--hd-header-size) !important; }
+.hd-other h2 { font-size: var(--hd-body-size) !important; }
+.hd-other-row article { min-height: 64px !important; }
+.hd-other-row strong { font-size: var(--hd-body-small-size) !important; }
+.hd-other-row span { font-size: var(--hd-caption-size) !important; }
+.hd-concise { min-height: 64px !important; height: auto !important; }
+.hd-concise > span { font-size: var(--hd-body-small-size) !important; }
+.hd-concise > span strong { font-size: var(--hd-body-size) !important; }
+.hd-concise small { font-size: var(--hd-caption-size) !important; }
+.hd-ai-focus strong { font-size: var(--hd-body-size) !important; }
+.hd-ai-focus span { font-size: var(--hd-body-small-size) !important; }
+.hd-ai-list strong { font-size: var(--hd-body-small-size) !important; }
+.hd-ai-list span { font-size: var(--hd-caption-size) !important; }
+
+/* The approved slide-out menu is narrow and uses the same 18/20 scale. */
+.hd-sidebar-scrim {
+  background: rgba(2, 6, 15, 0.52) !important;
+  backdrop-filter: none !important;
+}
+
+.hd-sidebar {
+  width: clamp(250px, 24vw, 300px) !important;
+  min-width: 0 !important;
+  border-radius: 0 24px 24px 0 !important;
+  padding: 26px 20px 20px !important;
+  background: #000000 !important;
+}
+
+.hd-sidebar-close {
+  top: 10px !important;
+  right: 10px !important;
+  width: 34px !important;
+  height: 34px !important;
+  color: #ffffff !important;
+}
+
+.hd-sidebar-primary { gap: 4px !important; }
+
+.hd-sidebar button:not(.hd-sidebar-close) {
+  min-height: 58px !important;
+  gap: 16px !important;
+  padding: 0 8px !important;
+  border-radius: 12px !important;
+  color: #8f9096 !important;
+  font-size: var(--hd-header-size) !important;
+  font-weight: 400 !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.016em;
+}
+
+.hd-sidebar button:not(.hd-sidebar-close):hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.055) !important;
+}
+
+.hd-sidebar button.active {
+  color: #ffffff !important;
+  font-weight: 500 !important;
+}
+
+.hd-sidebar-icon {
+  --hd-icon-size: 29px !important;
+  width: 29px !important;
+  height: 29px !important;
+  min-width: 29px !important;
+  min-height: 29px !important;
+  flex: 0 0 29px !important;
+  padding: 0 !important;
+}
+
+.hd-sidebar-preferences { margin-top: auto !important; }
+.hd-sidebar > small {
+  margin: 12px 0 0 53px !important;
+  font-size: 10px !important;
+  letter-spacing: 0;
+}
+
+/* Page-specific font alignment with the approved screens. */
+.fi-page,
+.pi-root,
+.vd-root,
+.st-page,
+.nt-page,
+.cal-page,
+.pf-page { font-size: var(--hd-body-small-size) !important; }
+
+.fi-page button,
+.pi-root button,
+.vd-root button,
+.st-page button,
+.nt-page button,
+.cal-page button,
+.pf-page button { letter-spacing: -0.01em; }
+
+.fi-video-tabs button,
+.fi-h2h-filterbar button,
+.fi-h2h-subfilters button,
+.pi-filter,
+.pi-sort,
+.vd-filter,
+.pf-seg-btn { font-size: var(--hd-body-small-size) !important; }
+
+.vd-sec-title,
+.st-rail h3,
+.pf-h,
+.pf-section-title,
+.nt-section-title,
+.cal-day-name { font-size: var(--hd-body-size) !important; }
+
+/* Notes and report rails use captions for dense metadata, never tiny display copy. */
+.nt-card-excerpt,
+.nt-card-date,
+.nt-row-excerpt,
+.nt-row-time,
+.st-report-list button,
+.vd-mini-date,
+.vd-clip-date,
+.cal-event-time,
+.pf-help { font-size: var(--hd-caption-size) !important; }
+
+/* Light mode: exact supplied palette, including inherited icon color. */
+.hd-root.hd-theme-light {
+  --hd-bg: #e9eff6;
+  --hd-bg-2: #e3ebf4;
+  --hd-card: #f9fbfd;
+  --hd-card-compact: #f1f5f9;
+  --hd-card-raised: #ffffff;
+  --hd-text: #02060f;
+  --hd-muted: #667080;
+  --hd-divider: #dce5ee;
+  --hd-accent: #4186ff;
+  --hd-accent-deep: #2155fc;
+}
+
+.hd-root.hd-theme-light .hd-nav-btn,
+.hd-root.hd-theme-light .hd-search { background: #e3ebf4 !important; color: #02060f !important; }
+.hd-root.hd-theme-light .hd-nav-btn:hover,
+.hd-root.hd-theme-light .hd-search:focus-within { background: #f1f5f9 !important; }
+.hd-root.hd-theme-light .hd-panel,
+.hd-root.hd-theme-light .hd-pp { background: #f9fbfd !important; }
+.hd-root.hd-theme-light .hd-ai-panel,
+.hd-root.hd-theme-light .hd-concise,
+.hd-root.hd-theme-light .hd-other-row article { background: #f1f5f9 !important; }
+.hd-root.hd-theme-light .hd-sidebar { background: #000000 !important; color: #ffffff !important; }
+
+/* No motion on counters or menu; the demo itself remains functional. */
+.hd-root .hd-clock,
+.hd-root .hd-toi-time,
+.hd-root .hd-score-center strong,
+.hd-root time,
+.hd-sidebar,
+.hd-sidebar * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* 11-inch iPad landscape tuning (1194 × 834). */
+@media (max-height: 900px), (max-width: 1240px) {
+  .hd-root {
+    --hd-caption-size: 12px;
+    --hd-body-small-size: 16px;
+    --hd-body-size: 18px;
+    --hd-header-size: 20px;
+    --hd-title-size: 24px;
+    padding-top: 12px !important;
+    gap: 12px !important;
+  }
+
+  .hd-topbar { height: 42px !important; min-height: 42px !important; }
+  .hd-nav-btn,
+  .hd-search { height: 42px !important; min-height: 42px !important; border-radius: 10px !important; }
+  .hd-refresh { width: 42px !important; min-width: 42px !important; }
+  .hd-search { width: clamp(230px, 25vw, 300px) !important; }
+  .hd-score-band { min-height: 96px !important; }
+  .hd-clock { font-size: clamp(44px, 5vw, 58px) !important; }
+  .hd-score-center strong { font-size: clamp(44px, 4.8vw, 56px) !important; }
+  .hd-score-center img { width: 45px !important; height: 45px !important; }
+  .hd-sidebar { width: 260px !important; padding-top: 22px !important; }
+  .hd-sidebar button:not(.hd-sidebar-close) { min-height: 52px !important; }
+}
+
+@media (max-width: 980px) {
+  .hd-root { min-width: 860px !important; }
+  .hd-topbar,
+  .hd-pagewrap { min-width: 0 !important; }
+  .hd-topbar-right { gap: 6px !important; }
+  .hd-nav-btn { padding-inline: 10px !important; }
+  .hd-search { width: 220px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hd-root *, .hd-root *::before, .hd-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

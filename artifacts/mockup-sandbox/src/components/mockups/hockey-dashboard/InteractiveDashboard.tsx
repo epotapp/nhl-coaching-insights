@@ -1,20 +1,5 @@
-import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
-import {
-  Activity,
-  CalendarDays,
-  CircleUserRound,
-  Mic,
-  NotebookText,
-  PanelLeft,
-  Pause,
-  Play,
-  RotateCw,
-  Search,
-  Sparkles,
-  Target,
-  Users,
-  X,
-} from "lucide-react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { RotateCw } from "lucide-react";
 import "./hockey-dashboard.css";
 import "./pages/pages-shared.css";
 import { APP_PAGES, type AppPage } from "./shared";
@@ -35,33 +20,40 @@ import {
   type StackEntry,
 } from "./ExpandedViews";
 import { mmss, useGameSim } from "./gameSim";
+import { AiFaceoffVisual, AiRelatedFullView, AiRelatedMiniatures, type AiRelatedKey } from "./AiInsightViews";
+import { useNhlDashboardSnapshot } from "./data/useNhlDashboardSnapshot";
+import type { DashboardSnapshot } from "./data/nhlDataClient";
 import {
   CAR_PLAYERS,
   CAR_PRIMARY_PLAYER_NUMBERS,
+  GAME4_META,
   GAME4_GOALS,
   GAME4_PENALTIES,
   GAME4_TEAM_TOTALS,
 } from "./game4Data";
+import "./v0.2-polish.css";
+import "./v0.3-polish.css";
+import { HdIcon } from "./HdIcon";
+import { imageBase } from "./assets";
 
-export const NHL_DASHBOARD_VERSION = "0.1.0";
+export const NHL_DASHBOARD_VERSION = "0.3.0";
 
 type FlowStep = "login" | ObStep | "dashboard";
 type Theme = "dark" | "light";
 
-const imageBase = "/__mockup/images/hockey-dashboard/";
 const primaryPlayers = CAR_PRIMARY_PLAYER_NUMBERS
   .map(num => CAR_PLAYERS.find(player => player.num === num))
   .filter((player): player is (typeof CAR_PLAYERS)[number] => Boolean(player));
 
 const NAV_ICONS: Record<AppPage, ReactNode> = {
-  Dashboard: <img className="hd-sidebar-icon" src={`${imageBase}nav/dashboard.png`} alt="" />,
-  "Featured Insights": <img className="hd-sidebar-icon" src={`${imageBase}nav/featured-insights.png`} alt="" />,
-  "Player Insights": <img className="hd-sidebar-icon" src={`${imageBase}nav/player-insights.png`} alt="" />,
-  Video: <img className="hd-sidebar-icon" src={`${imageBase}nav/video.png`} alt="" />,
-  Stats: <img className="hd-sidebar-icon" src={`${imageBase}nav/stats.png`} alt="" />,
-  Notes: <img className="hd-sidebar-icon" src={`${imageBase}nav/notes.png`} alt="" />,
-  Calendar: <img className="hd-sidebar-icon" src={`${imageBase}nav/calendar.png`} alt="" />,
-  Preferences: <CircleUserRound className="hd-sidebar-icon hd-sidebar-pref-icon" />,
+  Dashboard: <HdIcon name="home" className="hd-sidebar-icon" />,
+  "Featured Insights": <HdIcon name="featured" className="hd-sidebar-icon" />,
+  "Player Insights": <HdIcon name="player" className="hd-sidebar-icon" />,
+  Video: <HdIcon name="video" className="hd-sidebar-icon" />,
+  Stats: <HdIcon name="chart" className="hd-sidebar-icon" />,
+  Notes: <HdIcon name="notes" className="hd-sidebar-icon" />,
+  Calendar: <HdIcon name="calendar" className="hd-sidebar-icon" />,
+  Preferences: <HdIcon name="profile" className="hd-sidebar-icon hd-sidebar-pref-icon" />,
 };
 
 const PAGE_FROM_QUERY: Record<string, AppPage> = {
@@ -86,16 +78,21 @@ function initialPreviewState(): { flow: FlowStep; page: AppPage } {
   return { flow: "login", page: "Dashboard" };
 }
 
+
+function initialThemeState(): Theme {
+  if (typeof window === "undefined") return "dark";
+  const queryTheme = new URLSearchParams(window.location.search).get("theme");
+  if (queryTheme === "light" || queryTheme === "dark") return queryTheme;
+  const saved = window.localStorage.getItem("nhl-coaching-theme");
+  return saved === "light" ? "light" : "dark";
+}
+
 function IconButton({ label, onClick, children }: { label: string; onClick?: () => void; children: ReactNode }) {
   return <button type="button" className="hd-ibtn" aria-label={label} onClick={onClick}>{children}</button>;
 }
 
-function ExpandGlyph() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <path d="M2 5.5V2h3.5M10 2h3v3.5M13 10v3h-3.5M5.5 13H2v-3" />
-    </svg>
-  );
+function ExpandGlyph({ collapse = false }: { collapse?: boolean }) {
+  return <HdIcon name={collapse ? "minimize" : "expand"} size={16} />;
 }
 
 function Panel({
@@ -104,18 +101,20 @@ function Panel({
   children,
   className = "",
   onExpand,
+  expanded = false,
 }: {
   title: string;
   icon: ReactNode;
   children: ReactNode;
   className?: string;
   onExpand?: () => void;
+  expanded?: boolean;
 }) {
   return (
     <section className={`hd-panel ${className}`}>
       <header className="hd-panel-head">
         <span className="hd-panel-title">{icon}<strong>{title}</strong></span>
-        {onExpand && <IconButton label={`Expand ${title}`} onClick={onExpand}><ExpandGlyph /></IconButton>}
+        {onExpand && <IconButton label={`${expanded ? "Collapse" : "Expand"} ${title}`} onClick={onExpand}><ExpandGlyph collapse={expanded} /></IconButton>}
       </header>
       {children}
     </section>
@@ -126,7 +125,7 @@ function DemoControls({ sim }: { sim: ReturnType<typeof useGameSim> }) {
   if (sim.mode === "idle") {
     return (
       <button className="hd-nav-btn hd-demo-start" type="button" onClick={sim.start}>
-        <Play size={14} /> Start Demo
+        <HdIcon name="play" size={14} /> Start Demo
       </button>
     );
   }
@@ -142,7 +141,7 @@ function DemoControls({ sim }: { sim: ReturnType<typeof useGameSim> }) {
         onClick={sim.mode === "running" ? sim.pause : sim.resume}
         disabled={sim.mode === "ended"}
       >
-        {sim.mode === "running" ? <Pause size={14} /> : <Play size={14} />}
+        {sim.mode === "running" ? <HdIcon name="pause" size={14} /> : <HdIcon name="play" size={14} />}
         {sim.mode === "running" ? "Pause" : sim.mode === "ended" ? "Final" : "Resume"}
       </button>
     </>
@@ -152,16 +151,18 @@ function DemoControls({ sim }: { sim: ReturnType<typeof useGameSim> }) {
 function SearchBar() {
   return (
     <label className="hd-search">
-      <Search size={16} />
-      <Sparkles size={15} />
+      <HdIcon name="search" size={17} />
+      <HdIcon name="sparkle" size={16} className="hd-search-star" />
       <input aria-label="Search" placeholder="Search" />
-      <Mic size={15} />
+      <HdIcon name="mic" size={16} />
     </label>
   );
 }
 
-function TeamScore({ sim }: { sim: ReturnType<typeof useGameSim> }) {
+function TeamScore({ sim, snapshot }: { sim: ReturnType<typeof useGameSim>; snapshot: DashboardSnapshot | null }) {
   const idle = sim.mode === "idle";
+  const carScore = snapshot?.live.score.away ?? (idle ? 5 : sim.score.car);
+  const vgkScore = snapshot?.live.score.home ?? (idle ? 3 : sim.score.vgk);
   return (
     <div className="hd-score-band" aria-label="Live game score">
       <div className="hd-clock-block">
@@ -170,9 +171,9 @@ function TeamScore({ sim }: { sim: ReturnType<typeof useGameSim> }) {
       </div>
       <div className="hd-score-center">
         <img src={`${imageBase}vgk.png`} alt="Vegas Golden Knights" />
-        <strong>{idle ? "03" : String(sim.score.vgk).padStart(2, "0")}</strong>
+        <strong>{String(vgkScore).padStart(2, "0")}</strong>
         <span>–</span>
-        <strong>{idle ? "05" : String(sim.score.car).padStart(2, "0")}</strong>
+        <strong>{String(carScore).padStart(2, "0")}</strong>
         <img src={`${imageBase}canes.png`} alt="Carolina Hurricanes" />
       </div>
       <div className="hd-strength-block">
@@ -215,7 +216,7 @@ function FaceoffCard({ sim, onExpand }: { sim: ReturnType<typeof useGameSim>; on
   const pct = Math.round((car / total) * 100);
   const leaders = [11, 20, 77].map(num => CAR_PLAYERS.find(p => p.num === num)!).filter(Boolean);
   return (
-    <Panel title="Faceoff Win Rate" icon={<Users size={16} />} className="hd-primary-stat" onExpand={onExpand}>
+    <Panel title="Faceoff Win Rate" icon={<HdIcon name="head-to-head-faceoffs" size={17} />} className="hd-primary-stat" onExpand={onExpand}>
       <div className="hd-fo-summary">
         <div><strong>{pct}%</strong><span>CAR · {car}/{total}</span></div>
         <div className="hd-fo-balance" aria-hidden="true"><i style={{ width: `${pct}%` }} /></div>
@@ -239,52 +240,80 @@ function FaceoffCard({ sim, onExpand }: { sim: ReturnType<typeof useGameSim>; on
   );
 }
 
-function ShotsCard({ sim, onExpand }: { sim: ReturnType<typeof useGameSim>; onExpand: () => void }) {
+function ShotsCard({ sim, onExpand, snapshot, theme }: { sim: ReturnType<typeof useGameSim>; onExpand: () => void; snapshot: DashboardSnapshot | null; theme: Theme }) {
   const idle = sim.mode === "idle";
-  const car = idle ? GAME4_TEAM_TOTALS.CAR.shots : sim.team.sogCar;
-  const vgk = idle ? GAME4_TEAM_TOTALS.VGK.shots : sim.team.sogVgk;
+  const car = snapshot?.live.shotsOnGoal.away ?? (idle ? GAME4_TEAM_TOTALS.CAR.shots : sim.team.sogCar);
+  const vgk = snapshot?.live.shotsOnGoal.home ?? (idle ? GAME4_TEAM_TOTALS.VGK.shots : sim.team.sogVgk);
   return (
-    <Panel title="Shots on Goal" icon={<Target size={16} />} className="hd-primary-stat" onExpand={onExpand}>
+    <Panel title="Shots on Goal" icon={<HdIcon name="shooting-sector" size={17} />} className="hd-primary-stat" onExpand={onExpand}>
       <div className="hd-shot-score">
         <div><img src={`${imageBase}canes.png`} alt="" /><strong>{car}</strong><span>CAR</span></div>
         <span>–</span>
         <div><img src={`${imageBase}vgk.png`} alt="" /><strong>{vgk}</strong><span>VGK</span></div>
       </div>
-      <img className="hd-mini-chart" src={`${imageBase}charts/game-flow.png`} alt="Cumulative shots on goal by elapsed game time" />
+      <img className="hd-mini-chart" src={`${imageBase}charts/game-flow${theme === "light" ? "-light" : ""}.png`} alt="Cumulative shots on goal by elapsed game time" />
     </Panel>
   );
 }
 
-function AiPanel({ sim }: { sim: ReturnType<typeof useGameSim> }) {
-  const recent = sim.insights[0];
+function AiPanel({
+  sim,
+  snapshot,
+  expanded,
+  onToggleExpanded,
+  onOpenRelated,
+}: {
+  sim: ReturnType<typeof useGameSim>;
+  snapshot: DashboardSnapshot | null;
+  expanded: boolean;
+  onToggleExpanded: () => void;
+  onOpenRelated: (key: AiRelatedKey) => void;
+}) {
   const idleInsights = [
-    { title: "Faceoff edge", sub: "Staal won 12 of 16 draws" },
-    { title: "Net-front execution", sub: "Two Staal goals drove the 5–3 win" },
-    { title: "Shot control", sub: "Carolina finished ahead 28–21" },
+    { title: "Faceoff control", sub: "Staal won 12 of 16 draws", priority: "High" },
+    { title: "Net-front execution", sub: "Two Staal goals drove the 5–3 win", priority: "High" },
+    { title: "Shot control", sub: "Carolina finished ahead 28–21", priority: "Medium" },
   ];
-  const rows = sim.mode === "idle"
-    ? idleInsights
-    : sim.insights.length
-      ? sim.insights.slice(0, 3)
-      : [{ title: "Opening structure", sub: "Staal line starts against Karlsson" }];
+  const databaseInsights = snapshot?.insights.slice(0, 3).map((row, index) => ({
+    title: row.title,
+    sub: row.summary,
+    priority: index === 0 ? "High" : "Medium",
+  }));
+  const rows = databaseInsights?.length
+    ? databaseInsights
+    : sim.mode === "idle"
+      ? idleInsights
+      : sim.insights.length
+        ? sim.insights.slice(0, 3).map((row, index) => ({ ...row, priority: index === 0 ? "High" : "Medium" }))
+        : [{ title: "Opening structure", sub: "Staal line starts against Karlsson", priority: "High" }];
 
   return (
-    <Panel title="AI Insights" icon={<Sparkles size={16} />} className="hd-ai-panel">
-      <div className="hd-ai-focus">
-        <Sparkles size={18} />
-        <div>
-          <strong>{recent?.title ?? "Game 4 coaching summary"}</strong>
-          <span>{recent?.sub ?? "CAR controlled faceoffs and finished with a 28–21 shot advantage."}</span>
-        </div>
-      </div>
-      <div className="hd-ai-list">
-        {rows.map((row, index) => (
-          <article key={`${row.title}-${index}`}>
-            <i />
-            <div><strong>{row.title}</strong><span>{row.sub}</span></div>
-          </article>
-        ))}
-      </div>
+    <Panel
+      title="AI Insights"
+      icon={<HdIcon name="sparkle" size={17} />}
+      className={`hd-ai-panel${expanded ? " hd-ai-panel-expanded" : ""}`}
+      onExpand={onToggleExpanded}
+      expanded={expanded}
+    >
+      {expanded ? (
+        <>
+          <AiFaceoffVisual />
+          <AiRelatedMiniatures onOpen={onOpenRelated} />
+        </>
+      ) : (
+        <>
+          <AiFaceoffVisual compact />
+          <div className="hd-ai-list">
+            {rows.map((row, index) => (
+              <article key={`${row.title}-${index}`}>
+                <i />
+                <div><strong>{row.title}</strong><span>{row.sub}</span></div>
+                <small>{row.priority}</small>
+              </article>
+            ))}
+          </div>
+        </>
+      )}
     </Panel>
   );
 }
@@ -320,7 +349,7 @@ function OtherInsights({ sim }: { sim: ReturnType<typeof useGameSim> }) {
       <h2>Other Insights</h2>
       <div className="hd-other-row">
         {values.map(([label, value]) => (
-          <article key={label}><Activity size={14} /><div><span>{label}</span><strong>{value}</strong></div></article>
+          <article key={label}><HdIcon name="game-pulse" size={15} /><div><span>{label}</span><strong>{value}</strong></div></article>
         ))}
       </div>
     </section>
@@ -331,7 +360,7 @@ export function InteractiveDashboard() {
   const preview = useMemo(initialPreviewState, []);
   const [flow, setFlow] = useState<FlowStep>(preview.flow);
   const [page, setPage] = useState<AppPage>(preview.page);
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(initialThemeState);
   const [textScale, setTextScale] = useState(50);
   const [density, setDensity] = useState(100);
   const [aiPrioritization, setAiPrioritization] = useState(true);
@@ -341,9 +370,21 @@ export function InteractiveDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidePanel, setSidePanel] = useState<"notes" | "calendar" | null>(null);
   const [detailStack, setDetailStack] = useState<StackEntry[]>([]);
+  const [aiExpanded, setAiExpanded] = useState(false);
+  const [aiRelated, setAiRelated] = useState<AiRelatedKey | null>(null);
   const sim = useGameSim();
+  const database = useNhlDashboardSnapshot(GAME4_META.gameId, sim.mode === "idle" ? 3600 : sim.elapsed);
+  const databaseSnapshot = database.snapshot;
 
-  const openDetail = (stat: DetailStat) => setDetailStack([{ kind: "detail", stat }]);
+  useEffect(() => {
+    window.localStorage.setItem("nhl-coaching-theme", theme);
+  }, [theme]);
+
+  const openDetail = (stat: DetailStat) => {
+    setAiExpanded(false);
+    setAiRelated(null);
+    setDetailStack([{ kind: "detail", stat }]);
+  };
   const liveStats: LiveStats = { toi: sim.toi, fo: sim.team.fo, sog: sim.playerSog };
 
   const nextFlow = () => {
@@ -383,6 +424,10 @@ export function InteractiveDashboard() {
       );
     }
 
+    if (aiRelated) {
+      return <AiRelatedFullView itemKey={aiRelated} onBack={() => setAiRelated(null)} />;
+    }
+
     const activeDetail = detailStack[detailStack.length - 1];
     if (activeDetail?.kind === "detail") {
       return (
@@ -415,47 +460,60 @@ export function InteractiveDashboard() {
       : GAME4_GOALS.filter(event => event.playerNum === 11 && event.elapsed <= sim.elapsed).length;
     return (
       <main className="hd-dashboard">
-        <TeamScore sim={sim} />
-        <div className="hd-dashboard-grid">
+        <TeamScore sim={sim} snapshot={databaseSnapshot} />
+        <div className={`hd-dashboard-grid${aiExpanded ? " hd-dashboard-grid-ai-expanded" : ""}`}>
           <div className="hd-dashboard-main">
-            <Panel title="Player TOI and Rest Time" icon={<CircleUserRound size={16} />} className="hd-toi-panel" onExpand={() => openDetail("toi")}>
+            <Panel title="Player TOI and Rest Time" icon={<HdIcon name="player" size={17} />} className="hd-toi-panel" onExpand={() => openDetail("toi")}>
               <div className="hd-toi-list">
-                {primaryPlayers.map(player => (
+                {primaryPlayers.map(player => {
+                  const databasePlayer = databaseSnapshot?.players.find(item => item.team_code === "CAR" && item.jersey_number === player.num);
+                  return (
                   <PlayerToi
                     key={player.num}
                     player={player}
-                    seconds={idle ? player.toi : sim.toi[player.num] ?? 0}
-                    onIce={!idle && sim.onIce.has(player.num)}
+                    seconds={databasePlayer?.live_toi_seconds ?? (idle ? player.toi : sim.toi[player.num] ?? 0)}
+                    onIce={databasePlayer?.on_ice ?? (!idle && sim.onIce.has(player.num))}
                   />
-                ))}
+                  );
+                })}
               </div>
             </Panel>
             <div className="hd-lower-grid">
               <FaceoffCard sim={sim} onExpand={() => openDetail("fo")} />
-              <ShotsCard sim={sim} onExpand={() => openDetail("sog")} />
+              <ShotsCard sim={sim} snapshot={databaseSnapshot} theme={theme} onExpand={() => openDetail("sog")} />
             </div>
             <OtherInsights sim={sim} />
           </div>
-          <aside className="hd-dashboard-rail">
-            <AiPanel sim={sim} />
-            <ConciseStat
-              label="Faceoff Edge"
-              value={`${idle ? 57 : sim.team.foCarPct}%`}
-              context={`${idle ? 29 : sim.team.foW} CAR wins`}
-              onClick={() => openDetail("fo")}
+          <aside className={`hd-dashboard-rail${aiExpanded ? " hd-dashboard-rail-expanded" : ""}`}>
+            <AiPanel
+              sim={sim}
+              snapshot={databaseSnapshot}
+              expanded={aiExpanded}
+              onToggleExpanded={() => { setDetailStack([]); setAiRelated(null); setAiExpanded(value => !value); }}
+              onOpenRelated={setAiRelated}
             />
-            <ConciseStat
-              label="Shots on Goal"
-              value={`${idle ? 28 : sim.team.sogCar} | ${idle ? 21 : sim.team.sogVgk}`}
-              context="CAR | VGK"
-              onClick={() => openDetail("sog")}
-            />
-            <ConciseStat
-              label="Player Goals"
-              value={String(staalGoals)}
-              context="Jordan Staal"
-              onClick={() => setPage("Player Insights")}
-            />
+            {!aiExpanded && (
+              <>
+                <ConciseStat
+                  label="Faceoff Edge"
+                  value={`${idle ? 57 : sim.team.foCarPct}%`}
+                  context={`${idle ? 29 : sim.team.foW} CAR wins`}
+                  onClick={() => openDetail("fo")}
+                />
+                <ConciseStat
+                  label="Shots on Goal"
+                  value={`${databaseSnapshot?.live.shotsOnGoal.away ?? (idle ? 28 : sim.team.sogCar)} | ${databaseSnapshot?.live.shotsOnGoal.home ?? (idle ? 21 : sim.team.sogVgk)}`}
+                  context="CAR | VGK"
+                  onClick={() => openDetail("sog")}
+                />
+                <ConciseStat
+                  label="Player Goals"
+                  value={String(staalGoals)}
+                  context="Jordan Staal"
+                  onClick={() => { setAiExpanded(false); setPage("Player Insights"); }}
+                />
+              </>
+            )}
           </aside>
         </div>
       </main>
@@ -472,15 +530,15 @@ export function InteractiveDashboard() {
       <header className="hd-topbar">
         <div className="hd-topbar-left">
           <button type="button" className="hd-nav-btn hd-page-button" onClick={() => setMenuOpen(true)}>
-            <PanelLeft size={16} /> {page}
+            <HdIcon name="sidebar" size={18} /> {page}
           </button>
           <button type="button" className="hd-nav-btn hd-refresh" onClick={sim.reset} aria-label="Reset demo"><RotateCw size={14} /></button>
           <DemoControls sim={sim} />
         </div>
         <div className="hd-topbar-right">
           <SearchBar />
-          <button type="button" className="hd-nav-btn" onClick={() => setSidePanel(sidePanel === "notes" ? null : "notes")}><NotebookText size={15} /> Notes</button>
-          <button type="button" className="hd-nav-btn" onClick={() => setSidePanel(sidePanel === "calendar" ? null : "calendar")}><CalendarDays size={15} /> Calendar</button>
+          <button type="button" className="hd-nav-btn" onClick={() => setSidePanel(sidePanel === "notes" ? null : "notes")}><HdIcon name="notes" size={17} /> Notes</button>
+          <button type="button" className="hd-nav-btn" onClick={() => setSidePanel(sidePanel === "calendar" ? null : "calendar")}><HdIcon name="calendar" size={17} /> Calendar</button>
         </div>
       </header>
 
@@ -489,14 +547,14 @@ export function InteractiveDashboard() {
       {menuOpen && (
         <div className="hd-sidebar-scrim" onClick={() => setMenuOpen(false)}>
           <nav className="hd-sidebar" onClick={event => event.stopPropagation()} aria-label="Main navigation">
-            <button className="hd-sidebar-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}><X size={19} /></button>
+            <button className="hd-sidebar-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}><HdIcon name="close" size={18} /></button>
             <div className="hd-sidebar-primary">
               {APP_PAGES.filter(item => item !== "Preferences").map(item => (
                 <button
                   type="button"
                   key={item}
                   className={page === item ? "active" : ""}
-                  onClick={() => { setPage(item); setMenuOpen(false); setDetailStack([]); }}
+                  onClick={() => { setPage(item); setMenuOpen(false); setDetailStack([]); setAiExpanded(false); setAiRelated(null); }}
                 >
                   {NAV_ICONS[item]}<span>{item}</span>
                 </button>
@@ -505,7 +563,7 @@ export function InteractiveDashboard() {
             <button
               type="button"
               className={`hd-sidebar-preferences${page === "Preferences" ? " active" : ""}`}
-              onClick={() => { setPage("Preferences"); setMenuOpen(false); setDetailStack([]); }}
+              onClick={() => { setPage("Preferences"); setMenuOpen(false); setDetailStack([]); setAiExpanded(false); setAiRelated(null); }}
             >
               {NAV_ICONS.Preferences}<span>Preferences</span>
             </button>

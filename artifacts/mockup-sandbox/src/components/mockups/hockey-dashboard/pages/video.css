@@ -569,6 +569,6 @@
 .hd-root.hd-theme-light .vd-scrub-bar { background: rgba(2, 6, 15, 0.10); }
 
 
-/* v0.1 static approved interaction */
+/* v0.2 static approved interaction */
 .video-page *, .video-root * { animation: none !important; transition: none !important; }
 .hd-panel { box-shadow: none !important; }

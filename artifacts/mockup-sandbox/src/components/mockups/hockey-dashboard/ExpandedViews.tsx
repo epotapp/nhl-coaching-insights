@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { CircleUserRound, Play, SquareActivity, Target } from "lucide-react";
+import { HdIcon } from "./HdIcon";
+import { imageBase, videoBase } from "./assets";
 import { CAR_PLAYERS, GAME4_TEAM_TOTALS } from "./game4Data";
 
 export type DetailStat = "toi" | "fo" | "sog";
@@ -7,8 +8,6 @@ export type StackEntry =
   | { kind: "detail"; stat: DetailStat }
   | { kind: "video"; stat: DetailStat; clip: number };
 
-const imageBase = "/__mockup/images/hockey-dashboard/";
-const videoBase = "/__mockup/videos/hockey-dashboard/";
 
 interface ClipConfig { title: string; caption: string; src: string; poster: string; }
 interface DetailConfig {
@@ -31,7 +30,7 @@ const CONFIG: Record<DetailStat, DetailConfig> = {
   toi: {
     title: "Time on Ice",
     subtitle: "Per Player · Game 4",
-    icon: <CircleUserRound size={16} />,
+    icon: <HdIcon name="player" size={17} />,
     cards: [
       { title: "Forward leader", sub: "Nikolaj Ehlers", value: "19:09" },
       { title: "Defense leader", sub: "Jaccob Slavin", value: "24:41" },
@@ -46,7 +45,7 @@ const CONFIG: Record<DetailStat, DetailConfig> = {
   fo: {
     title: "Faceoff %",
     subtitle: "Per Player · Game 4",
-    icon: <SquareActivity size={16} />,
+    icon: <HdIcon name="head-to-head-faceoffs" size={17} />,
     cards: [
       { title: "Team FO%", sub: "Carolina", value: "57%" },
       { title: "Team draws", sub: "Won / taken", value: "29 / 51" },
@@ -61,7 +60,7 @@ const CONFIG: Record<DetailStat, DetailConfig> = {
   sog: {
     title: "Shots on Goal",
     subtitle: "Per Player · Game 4",
-    icon: <Target size={16} />,
+    icon: <HdIcon name="shooting-sector" size={17} />,
     cards: [
       { title: "Team SOG", sub: "Carolina", value: "28" },
       { title: "Opponent SOG", sub: "Vegas", value: "21" },
@@ -144,7 +143,7 @@ export function WidgetDetailView({ stat, onCollapse, onOpenVideo, live }: {
         {config.cards.map(card => <div className="hd-detail-card" key={card.title}><div className="hd-detail-card-head"><strong>{card.title}</strong><span>| {card.sub}</span></div><div className="hd-detail-card-val">{card.value}</div></div>)}
       </div>
       <div className="hd-detail-videos">
-        {config.videos.map((video, index) => <button className="hd-video-row" key={video.title} onClick={() => onOpenVideo(index)}><span className="hd-video-row-title"><strong>Video</strong> | {video.title}</span><Play size={13} className="hd-video-row-play" /></button>)}
+        {config.videos.map((video, index) => <button className="hd-video-row" key={video.title} onClick={() => onOpenVideo(index)}><span className="hd-video-row-title"><strong>Video</strong> | {video.title}</span><HdIcon name="play" size={14} className="hd-video-row-play" /></button>)}
       </div>
       <footer className="hd-detail-source">Official Game 4 totals: CAR {GAME4_TEAM_TOTALS.CAR.shots} shots, {GAME4_TEAM_TOTALS.CAR.faceoffWins} faceoff wins.</footer>
     </section>

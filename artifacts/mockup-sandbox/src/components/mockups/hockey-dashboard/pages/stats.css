@@ -1,4 +1,4 @@
-/* Stats v0.1 — fixed responsive reflow */
+/* Stats v0.2 — fixed responsive reflow */
 .st-page { width: 100%; min-height: 100%; display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(280px, .9fr); gap: 20px; align-items: start; }
 .st-main { min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 .st-widget-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
@@ -39,6 +39,6 @@
 @media (max-width: 980px) { .st-page { grid-template-columns: minmax(0, 1fr) 270px; } .st-fo-content { grid-template-columns: 130px .8fr 1fr; } }
 
 
-/* v0.1 static approved interaction */
+/* v0.2 static approved interaction */
 .stats-page *, .stats-root * { animation: none !important; transition: none !important; }
 .hd-panel { box-shadow: none !important; }

@@ -1,0 +1,28 @@
+{
+  "css": {
+    "files": 11,
+    "errors": []
+  },
+  "placeholder_hits": [],
+  "imports": {
+    "source_files": 101,
+    "missing": []
+  },
+  "assets": {
+    "total_files": 80,
+    "images": 63,
+    "videos": 17,
+    "bytes": 226205837
+  },
+  "seed": {
+    "bytes": 51740,
+    "has_begin_commit": true,
+    "game_id_occurrences": 267
+  },
+  "required": {
+    "missing": []
+  },
+  "app_source_sha256": "737fc4b13a61096a1a6dd73529dae41c7bec7e9b28021453e372cef30e7b0f0f",
+  "ok": true,
+  "failures": []
+}

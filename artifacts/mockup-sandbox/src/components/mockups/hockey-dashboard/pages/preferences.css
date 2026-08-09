@@ -66,6 +66,58 @@
   color: rgba(129, 131, 135, 0.7);
   font-weight: 500;
 }
+.pf-preview-widget-head {
+  position: absolute;
+  top: 10px;
+  left: 11px;
+  right: 30px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pf-preview-widget-head strong { color: var(--hd-text); font-size: calc(9px * var(--hd-ts)); }
+.pf-preview-widget-head span { color: var(--hd-muted); font-size: calc(7px * var(--hd-ts)); }
+.pf-preview-chart {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  top: 35px;
+  bottom: 28px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  border-bottom: 1px solid var(--hd-divider);
+  background: repeating-linear-gradient(to bottom, transparent 0 16px, color-mix(in srgb, var(--hd-divider) 55%, transparent) 16px 17px);
+}
+.pf-preview-chart i {
+  flex: 1;
+  min-width: 0;
+  border-radius: 3px 3px 0 0;
+  background: var(--hd-accent);
+}
+.pf-preview-chart i:nth-child(4),
+.pf-preview-chart i:nth-child(5) { background: color-mix(in srgb, var(--hd-accent) 58%, var(--hd-divider)); }
+.pf-preview-chart-axis {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--hd-muted);
+  font-size: calc(6.5px * var(--hd-ts));
+}
+.pf-preview-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transform: translateY(-4px);
+}
+.pf-preview-metric strong { color: var(--hd-text); font-size: calc(25px * var(--hd-ts)); line-height: 1; font-variant-numeric: tabular-nums; }
+.pf-preview-metric span { color: var(--hd-text); font-size: calc(8px * var(--hd-ts)); font-weight: 650; }
+.pf-preview-metric small { color: var(--hd-muted); font-size: calc(6.5px * var(--hd-ts)); }
 .pf-preview-exp {
   position: absolute;
   top: 8px;
@@ -490,3 +542,12 @@
 .hd-root.hd-theme-light .pf-preview-tag {
   background: rgba(2, 6, 15, 0.04);
 }
+
+/* v0.2 live preview polish — preserve the complete miniature without overlap */
+.pf-preview-grid { align-items: stretch; }
+.pf-preview-grid .pf-preview-card { height: 130px; }
+.pf-preview-metric { transform: none; padding: 18px 8px 10px; text-align: center; }
+.pf-preview-metric strong { display: inline-flex; align-items: baseline; justify-content: center; white-space: nowrap; }
+.pf-preview-foot { margin-top: 7px; padding: 0 4px; }
+.pf-preview-stat { bottom: 10px; left: 8px; right: 8px; display: flex; justify-content: center; }
+.pf-preview-metric strong > span { color: inherit; font: inherit; line-height: inherit; display: inline; }

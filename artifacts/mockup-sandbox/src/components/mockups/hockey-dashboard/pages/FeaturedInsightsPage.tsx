@@ -1,12 +1,11 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { Activity, CircleUserRound, Play, Target, Users } from "lucide-react";
+import { HdIcon } from "../HdIcon";
+import { imageBase, videoBase } from "../assets";
 import type { PageProps } from "../shared";
 import { PagePanel } from "../shared";
 import { CAR_FACEOFFS, CAR_PLAYERS, GAME4_TEAM_TOTALS, VGK_FACEOFFS } from "../game4Data";
 import "./featured.css";
 
-const imageBase = "/__mockup/images/hockey-dashboard/";
-const videoBase = "/__mockup/videos/hockey-dashboard/";
 
 type VideoGroup = "Faceoffs" | "Goals" | "Shots";
 type WidgetId = "video" | "faceoffs" | "sectors" | "lineup" | "flow" | "impact" | "goals";
@@ -111,7 +110,7 @@ function ClipReview({ full = false }: { full?: boolean }) {
           <button type="button" key={clip.file} className={active === index ? "active" : ""} onClick={() => setActive(index)}>
             <img src={clip.poster} alt="" />
             <span><strong>{clip.title}</strong><small>{clip.subtitle}</small></span>
-            <Play size={16} fill="currentColor" />
+            <HdIcon name="play" size={16} />
           </button>
         ))}
       </div>
@@ -236,18 +235,18 @@ interface WidgetConfig {
   render: (full?: boolean) => ReactNode;
 }
 
-export function FeaturedInsightsPage(_: PageProps) {
+export function FeaturedInsightsPage({ theme }: PageProps) {
   const [expanded, setExpanded] = useState<ExpandState>(null);
 
   const widgets = useMemo<WidgetConfig[]>(() => [
-    { id: "video", title: "Game 4 Video Review", subtitle: "Faceoffs · Goals · Shots", icon: <Play size={16} />, className: "fi-video-card", render: full => <ClipReview full={full} /> },
-    { id: "faceoffs", title: "Head to Head Faceoffs", subtitle: "Game 4", icon: <Users size={16} />, className: "fi-faceoff-card", render: full => full ? <FullFaceoffComparison /> : <FaceoffScoreboard /> },
-    { id: "sectors", title: "Shooting by Sector", subtitle: "CAR shots", icon: <Target size={16} />, className: "fi-sector-card", render: full => <SectorContent full={full} /> },
-    { id: "lineup", title: "Lineup Analyzer", subtitle: "Current Lineup", icon: <CircleUserRound size={16} />, className: "fi-lineup-card", render: full => <LineupAnalyzer full={full} /> },
-    { id: "flow", title: "Game Flow", subtitle: "Shots by time", icon: <Activity size={16} />, className: "fi-mini-card", render: () => <MiniChart source="game-flow.png" alt="Cumulative shot flow" /> },
-    { id: "impact", title: "Player Impact", subtitle: "Points and SOG", icon: <Activity size={16} />, className: "fi-mini-card", render: () => <MiniChart source="player-impact.png" alt="Player impact" /> },
-    { id: "goals", title: "Final Score", subtitle: "Game 4", icon: <Target size={16} />, className: "fi-mini-card", render: () => <MiniChart source="team-comparison.png" alt="Team comparison" value="CAR 5–3 VGK" /> },
-  ], []);
+    { id: "video", title: "Game 4 Video Review", subtitle: "Faceoffs · Goals · Shots", icon: <HdIcon name="video" size={17} />, className: "fi-video-card", render: full => <ClipReview full={full} /> },
+    { id: "faceoffs", title: "Head to Head Faceoffs", subtitle: "Game 4", icon: <HdIcon name="head-to-head-faceoffs" size={18} />, className: "fi-faceoff-card", render: full => full ? <FullFaceoffComparison /> : <FaceoffScoreboard /> },
+    { id: "sectors", title: "Shooting by Sector", subtitle: "CAR shots", icon: <HdIcon name="shooting-sector" size={18} />, className: "fi-sector-card", render: full => <SectorContent full={full} /> },
+    { id: "lineup", title: "Lineup Analyzer", subtitle: "Current Lineup", icon: <HdIcon name="lineup-analyzer" size={18} />, className: "fi-lineup-card", render: full => <LineupAnalyzer full={full} /> },
+    { id: "flow", title: "Game Flow", subtitle: "Shots by time", icon: <HdIcon name="game-pulse" size={17} />, className: "fi-mini-card", render: () => <MiniChart source={`game-flow${theme === "light" ? "-light" : ""}.png`} alt="Cumulative shot flow" /> },
+    { id: "impact", title: "Player Impact", subtitle: "Points and SOG", icon: <HdIcon name="player-speed" size={17} />, className: "fi-mini-card", render: () => <MiniChart source={`player-impact${theme === "light" ? "-light" : ""}.png`} alt="Player impact" /> },
+    { id: "goals", title: "Final Score", subtitle: "Game 4", icon: <HdIcon name="counter" size={17} />, className: "fi-mini-card", render: () => <MiniChart source={`team-comparison${theme === "light" ? "-light" : ""}.png`} alt="Team comparison" value="CAR 5–3 VGK" /> },
+  ], [theme]);
 
   const handleExpand = (id: WidgetId) => {
     setExpanded(current => {
