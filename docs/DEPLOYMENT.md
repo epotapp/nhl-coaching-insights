@@ -5,11 +5,11 @@ The frontend is a static Vite application. It can be deployed to GitHub Pages, I
 ## GitHub Pages — automatic workflow
 
 1. Create a GitHub repository and place the project contents at its root.
-2. Commit and push to the `main` or `master` branch.
+2. Commit and push to `main`, `master`, or the current release branch `nhl-v0.3`.
 3. In GitHub, open **Settings → Pages**.
 4. Set **Source** to **GitHub Actions**.
 5. Open the **Actions** tab and run **Deploy NHL Coaching Insights to GitHub Pages**, or push another commit.
-6. The workflow installs dependencies, derives `/<repository-name>/` as the Vite base path, builds the frontend, uploads `artifacts/mockup-sandbox/dist`, and publishes it.
+6. The workflow uses Node.js 24 and pnpm 10.15.0, installs the locked dependencies without lifecycle scripts, derives `/<repository-name>/` as the Vite base path, builds the frontend, uploads `artifacts/mockup-sandbox/dist`, and publishes it.
 
 Workflow file:
 

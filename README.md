@@ -30,7 +30,7 @@ The build also creates `404.html` so client-side routes work on GitHub Pages.
 
 ## Deploy
 
-The included GitHub Actions workflow automatically builds and deploys the frontend from `main` or `master`:
+The included GitHub Actions workflow automatically builds and deploys the frontend from `main`, `master`, or the current release branch `nhl-v0.3`:
 
 ```text
 .github/workflows/deploy-pages.yml
